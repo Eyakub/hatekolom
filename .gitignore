@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment
+.env
+*.env.local
+.env.prod
+backend/.env.prod
+
+# Production
+certbot/
+backups/
+
+# Build
+.next/
+out/
+dist/
+*.tsbuildinfo
+frontend/next-env.d.ts
+frontend/tsconfig.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+
+# Docker volumes
+postgres_data/
+redis_data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Pytest
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Uploads
+backend/static/uploads/
+
+# PM2 / Deployment
+ecosystem.config.js
+logs/
+
+# Superpowers brainstorm assets
+.superpowers/
+

@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E0F7FA"/>
+      <stop offset="100%" style="stop-color:#B2EBF2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- Magnifying glass shapes -->
+  <g opacity="0.1" stroke="#00838F" stroke-width="3" fill="none">
+    <!-- Magnifier 1 top-left -->
+    <circle cx="90" cy="100" r="28"/>
+    <line x1="110" y1="120" x2="128" y2="138"/>
+    <line x1="128" y1="138" x2="138" y2="128"/>
+    <line x1="110" y1="120" x2="100" y2="130"/>
+    <!-- Magnifier 2 top-right -->
+    <circle cx="700" cy="90" r="22"/>
+    <line x1="716" y1="106" x2="730" y2="120"/>
+    <!-- Magnifier 3 bottom-left -->
+    <circle cx="80" cy="490" r="24"/>
+    <line x1="97" y1="507" x2="112" y2="522"/>
+    <!-- Magnifier 4 bottom-right -->
+    <circle cx="710" cy="500" r="30"/>
+    <line x1="732" y1="522" x2="750" y2="540"/>
+    <!-- Magnifier 5 mid -->
+    <circle cx="740" cy="280" r="18"/>
+    <line x1="753" y1="293" x2="763" y2="303"/>
+  </g>
+
+  <!-- Small magnifier fill circles -->
+  <g opacity="0.06" fill="#006064">
+    <circle cx="90" cy="100" r="28"/>
+    <circle cx="700" cy="90" r="22"/>
+    <circle cx="80" cy="490" r="24"/>
+    <circle cx="710" cy="500" r="30"/>
+    <circle cx="740" cy="280" r="18"/>
+  </g>
+
+  <!-- Footprint / trail marks — left foot, right foot pattern -->
+  <g opacity="0.1" fill="#00796B">
+    <!-- Trail 1 diagonal from bottom-left to top-right -->
+    <!-- Left foot -->
+    <ellipse cx="120" cy="520" rx="7" ry="10" transform="rotate(-15, 120, 520)"/>
+    <ellipse cx="122" cy="508" rx="3" ry="2" transform="rotate(-15, 122, 508)"/>
+    <ellipse cx="127" cy="506" rx="3" ry="2" transform="rotate(-15, 127, 506)"/>
+    <ellipse cx="131" cy="507" rx="3" ry="2" transform="rotate(-15, 131, 507)"/>
+    <!-- Right foot -->
+    <ellipse cx="148" cy="498" rx="7" ry="10" transform="rotate(-20, 148, 498)"/>
+    <ellipse cx="150" cy="486" rx="3" ry="2" transform="rotate(-20, 150, 486)"/>
+    <ellipse cx="155" cy="484" rx="3" ry="2" transform="rotate(-20, 155, 484)"/>
+    <ellipse cx="159" cy="485" rx="3" ry="2" transform="rotate(-20, 159, 485)"/>
+    <!-- Left foot -->
+    <ellipse cx="174" cy="470" rx="7" ry="10" transform="rotate(-25, 174, 470)"/>
+    <ellipse cx="178" cy="458" rx="3" ry="2" transform="rotate(-25, 178, 458)"/>
+    <ellipse cx="183" cy="456" rx="3" ry="2" transform="rotate(-25, 183, 456)"/>
+    <ellipse cx="187" cy="457" rx="3" ry="2" transform="rotate(-25, 187, 457)"/>
+
+    <!-- Trail 2 top-right area -->
+    <ellipse cx="620" cy="80" rx="6" ry="9" transform="rotate(10, 620, 80)"/>
+    <ellipse cx="622" cy="69" rx="2.5" ry="1.8" transform="rotate(10, 622, 69)"/>
+    <ellipse cx="627" cy="67" rx="2.5" ry="1.8" transform="rotate(10, 627, 67)"/>
+    <ellipse cx="600" cy="100" rx="6" ry="9" transform="rotate(5, 600, 100)"/>
+    <ellipse cx="602" cy="89" rx="2.5" ry="1.8" transform="rotate(5, 602, 89)"/>
+    <ellipse cx="607" cy="87" rx="2.5" ry="1.8" transform="rotate(5, 607, 87)"/>
+  </g>
+
+  <!-- Small question mark doodles -->
+  <g opacity="0.08" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-size="28" fill="#00695C">
+    <text x="40" y="200">?</text>
+    <text x="740" y="180">?</text>
+    <text x="40" y="360">?</text>
+    <text x="750" y="400">?</text>
+    <text x="380" y="560">?</text>
+  </g>
+
+  <!-- Scattered dots like a trail/path -->
+  <g opacity="0.1" fill="#26C6DA">
+    <circle cx="200" cy="150" r="4"/>
+    <circle cx="230" cy="130" r="3"/>
+    <circle cx="260" cy="115" r="4"/>
+    <circle cx="290" cy="105" r="3"/>
+    <circle cx="560" cy="450" r="4"/>
+    <circle cx="590" cy="435" r="3"/>
+    <circle cx="620" cy="425" r="4"/>
+    <circle cx="650" cy="420" r="3"/>
+    <circle cx="680" cy="418" r="4"/>
+  </g>
+
+  <!-- Grid dots in background (subtle search grid) -->
+  <g opacity="0.05" fill="#00838F">
+    <circle cx="200" cy="240" r="2.5"/>
+    <circle cx="280" cy="240" r="2.5"/>
+    <circle cx="360" cy="240" r="2.5"/>
+    <circle cx="440" cy="240" r="2.5"/>
+    <circle cx="520" cy="240" r="2.5"/>
+    <circle cx="600" cy="240" r="2.5"/>
+    <circle cx="200" cy="320" r="2.5"/>
+    <circle cx="280" cy="320" r="2.5"/>
+    <circle cx="360" cy="320" r="2.5"/>
+    <circle cx="440" cy="320" r="2.5"/>
+    <circle cx="520" cy="320" r="2.5"/>
+    <circle cx="600" cy="320" r="2.5"/>
+    <circle cx="200" cy="400" r="2.5"/>
+    <circle cx="280" cy="400" r="2.5"/>
+    <circle cx="360" cy="400" r="2.5"/>
+    <circle cx="440" cy="400" r="2.5"/>
+    <circle cx="520" cy="400" r="2.5"/>
+    <circle cx="600" cy="400" r="2.5"/>
+  </g>
+</svg>

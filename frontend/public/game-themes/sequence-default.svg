@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E3F2FD"/>
+      <stop offset="100%" style="stop-color:#BBDEFB"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- Puzzle piece shapes using paths -->
+  <!-- A puzzle piece: base rect with tabs/notches on each side -->
+
+  <!-- Piece 1 — top-left corner, floating -->
+  <g opacity="0.1" fill="#1565C0">
+    <path d="
+      M40,60 L90,60
+      Q90,60 90,75 Q105,72 105,85 Q105,98 90,95 Q90,110 90,110
+      L40,110
+      Q40,110 40,95 Q25,98 25,85 Q25,72 40,75 Q40,60 40,60 Z
+    "/>
+  </g>
+
+  <!-- Piece 2 — top-right, floating isolated -->
+  <g opacity="0.09" fill="#1976D2">
+    <path d="
+      M680,50 L730,50
+      Q730,50 730,65 Q745,62 745,75 Q745,88 730,85 Q730,100 730,100
+      L680,100
+      Q680,100 680,85 Q665,88 665,75 Q665,62 680,65 Q680,50 680,50 Z
+    "/>
+  </g>
+
+  <!-- Piece 3 — mid-left, connected look -->
+  <g opacity="0.08" fill="#0D47A1">
+    <path d="
+      M30,280 L80,280
+      Q80,280 80,295 Q95,292 95,305 Q95,318 80,315 Q80,330 80,330
+      L30,330
+      Q30,330 30,315 Q15,318 15,305 Q15,292 30,295 Q30,280 30,280 Z
+    "/>
+  </g>
+
+  <!-- Piece 4 — bottom-right floating -->
+  <g opacity="0.09" fill="#1565C0">
+    <path d="
+      M700,450 L750,450
+      Q750,450 750,465 Q765,462 765,475 Q765,488 750,485 Q750,500 750,500
+      L700,500
+      Q700,500 700,485 Q685,488 685,475 Q685,462 700,465 Q700,450 700,450 Z
+    "/>
+  </g>
+
+  <!-- Piece 5 — bottom-left -->
+  <g opacity="0.08" fill="#1976D2">
+    <path d="
+      M50,480 L100,480
+      Q100,480 100,495 Q115,492 115,505 Q115,518 100,515 Q100,530 100,530
+      L50,530
+      Q50,530 50,515 Q35,518 35,505 Q35,492 50,495 Q50,480 50,480 Z
+    "/>
+  </g>
+
+  <!-- Piece 6 — top-center floating -->
+  <g opacity="0.07" fill="#2196F3">
+    <path d="
+      M360,30 L410,30
+      Q410,30 410,45 Q425,42 425,55 Q425,68 410,65 Q410,80 410,80
+      L360,80
+      Q360,80 360,65 Q345,68 345,55 Q345,42 360,45 Q360,30 360,30 Z
+    "/>
+  </g>
+
+  <!-- Piece 7 — mid-right small -->
+  <g opacity="0.08" fill="#1565C0">
+    <path d="
+      M720,220 L760,220
+      Q760,220 760,233 Q773,230 773,241 Q773,252 760,249 Q760,262 760,262
+      L720,262
+      Q720,262 720,249 Q707,252 707,241 Q707,230 720,233 Q720,220 720,220 Z
+    "/>
+  </g>
+
+  <!-- Piece 8 — bottom-center -->
+  <g opacity="0.07" fill="#0D47A1">
+    <path d="
+      M370,510 L420,510
+      Q420,510 420,525 Q435,522 435,535 Q435,548 420,545 Q420,560 420,560
+      L370,560
+      Q370,560 370,545 Q355,548 355,535 Q355,522 370,525 Q370,510 370,510 Z
+    "/>
+  </g>
+
+  <!-- Connector dots between pieces (suggest they link together) -->
+  <g opacity="0.07" stroke="#1E88E5" stroke-width="1.5" stroke-dasharray="4 4" fill="none">
+    <line x1="115" y1="305" x2="185" y2="290"/>
+    <line x1="750" y1="480" x2="680" y2="510"/>
+    <line x1="415" y1="55" x2="470" y2="80"/>
+  </g>
+
+  <!-- Tiny scattered dots suggesting more pieces -->
+  <g opacity="0.08" fill="#42A5F5">
+    <circle cx="200" cy="120" r="5"/>
+    <circle cx="580" cy="180" r="5"/>
+    <circle cx="160" cy="420" r="5"/>
+    <circle cx="640" cy="380" r="5"/>
+    <circle cx="400" cy="480" r="5"/>
+    <circle cx="260" cy="540" r="4"/>
+    <circle cx="520" cy="530" r="4"/>
+  </g>
+
+  <!-- Very faint grid lines suggesting puzzle grid -->
+  <g opacity="0.04" stroke="#1976D2" stroke-width="1" fill="none">
+    <line x1="160" y1="0" x2="160" y2="600"/>
+    <line x1="320" y1="0" x2="320" y2="600"/>
+    <line x1="480" y1="0" x2="480" y2="600"/>
+    <line x1="640" y1="0" x2="640" y2="600"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="450" x2="800" y2="450"/>
+  </g>
+</svg>

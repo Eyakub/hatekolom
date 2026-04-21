@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8E0FF"/>
+      <stop offset="100%" style="stop-color:#D4C5FF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- Stars scattered -->
+  <g opacity="0.12" fill="#7B5EA7">
+    <!-- Star shapes using polygon-like paths -->
+    <path d="M80,60 L83,70 L93,70 L85,76 L88,86 L80,80 L72,86 L75,76 L67,70 L77,70 Z"/>
+    <path d="M700,80 L702,88 L710,88 L704,93 L706,101 L700,96 L694,101 L696,93 L690,88 L698,88 Z"/>
+    <path d="M150,180 L152,188 L160,188 L154,193 L156,201 L150,196 L144,201 L146,193 L140,188 L148,188 Z"/>
+    <path d="M620,150 L622,158 L630,158 L624,163 L626,171 L620,166 L614,171 L616,163 L610,158 L618,158 Z"/>
+    <path d="M50,300 L52,308 L60,308 L54,313 L56,321 L50,316 L44,321 L46,313 L40,308 L48,308 Z"/>
+    <path d="M750,250 L752,258 L760,258 L754,263 L756,271 L750,266 L744,271 L746,263 L740,258 L748,258 Z"/>
+    <path d="M350,50 L352,58 L360,58 L354,63 L356,71 L350,66 L344,71 L346,63 L340,58 L348,58 Z"/>
+    <path d="M500,500 L502,508 L510,508 L504,513 L506,521 L500,516 L494,521 L496,513 L490,508 L498,508 Z"/>
+    <path d="M200,480 L202,488 L210,488 L204,493 L206,501 L200,496 L194,501 L196,493 L190,488 L198,488 Z"/>
+    <path d="M680,430 L682,438 L690,438 L684,443 L686,451 L680,446 L674,451 L676,443 L670,438 L678,438 Z"/>
+  </g>
+
+  <!-- Small star dots -->
+  <g opacity="0.1" fill="#9C6DD8">
+    <circle cx="120" cy="120" r="3"/>
+    <circle cx="400" cy="30" r="2"/>
+    <circle cx="660" cy="200" r="3"/>
+    <circle cx="30" cy="450" r="2"/>
+    <circle cx="770" cy="380" r="3"/>
+    <circle cx="300" cy="560" r="2"/>
+    <circle cx="550" cy="80" r="3"/>
+    <circle cx="90" cy="530" r="2"/>
+    <circle cx="730" cy="550" r="3"/>
+    <circle cx="460" cy="540" r="2"/>
+  </g>
+
+  <!-- Cloud shapes -->
+  <g opacity="0.1" fill="#C3A8FF">
+    <!-- Cloud 1 top-left -->
+    <ellipse cx="130" cy="90" rx="45" ry="22"/>
+    <ellipse cx="105" cy="98" rx="28" ry="18"/>
+    <ellipse cx="158" cy="98" rx="28" ry="18"/>
+    <!-- Cloud 2 top-right -->
+    <ellipse cx="660" cy="60" rx="50" ry="24"/>
+    <ellipse cx="630" cy="70" rx="30" ry="18"/>
+    <ellipse cx="690" cy="70" rx="30" ry="18"/>
+    <!-- Cloud 3 bottom-left -->
+    <ellipse cx="100" cy="520" rx="40" ry="20"/>
+    <ellipse cx="75" cy="528" rx="25" ry="16"/>
+    <ellipse cx="125" cy="528" rx="25" ry="16"/>
+    <!-- Cloud 4 bottom-right -->
+    <ellipse cx="700" cy="490" rx="45" ry="22"/>
+    <ellipse cx="672" cy="500" rx="28" ry="16"/>
+    <ellipse cx="728" cy="500" rx="28" ry="16"/>
+  </g>
+
+  <!-- Playing card silhouettes -->
+  <g opacity="0.08" fill="#6B4BAA" stroke="#6B4BAA" stroke-width="1">
+    <!-- Card 1 -->
+    <rect x="50" y="200" width="44" height="60" rx="4"/>
+    <!-- Card 2 slightly rotated -->
+    <g transform="rotate(-12, 72, 230)">
+      <rect x="50" y="200" width="44" height="60" rx="4" fill="none" stroke="#6B4BAA" stroke-width="2"/>
+    </g>
+    <!-- Card 3 -->
+    <rect x="680" y="320" width="44" height="60" rx="4"/>
+    <g transform="rotate(10, 702, 350)">
+      <rect x="680" y="320" width="44" height="60" rx="4" fill="none" stroke="#6B4BAA" stroke-width="2"/>
+    </g>
+    <!-- Card 4 top-right area -->
+    <rect x="700" y="140" width="38" height="54" rx="4"/>
+    <!-- Card 5 bottom-left -->
+    <rect x="30" y="430" width="38" height="54" rx="4"/>
+    <!-- Card 6 middle bottom -->
+    <rect x="370" y="520" width="38" height="54" rx="4"/>
+    <g transform="rotate(8, 389, 547)">
+      <rect x="370" y="520" width="38" height="54" rx="4" fill="none" stroke="#6B4BAA" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- Tiny sparkle dots scattered -->
+  <g opacity="0.15" fill="#B39DDB">
+    <circle cx="240" cy="140" r="4"/>
+    <circle cx="560" cy="200" r="3"/>
+    <circle cx="180" cy="360" r="4"/>
+    <circle cx="620" cy="400" r="3"/>
+    <circle cx="400" cy="460" r="4"/>
+    <circle cx="760" cy="140" r="3"/>
+    <circle cx="40" cy="160" r="3"/>
+  </g>
+</svg>
