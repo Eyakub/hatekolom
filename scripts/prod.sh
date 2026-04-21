@@ -38,7 +38,7 @@ ECOSYSTEM_FILE="$ROOT/ecosystem.config.js"
 PROJECT_NAME="${PROJECT_NAME:-lms}"
 BACKEND_PORT="${BACKEND_PORT:-8001}"
 FRONTEND_PORT="${FRONTEND_PORT:-3001}"
-DOMAIN="${DOMAIN:-lms.attirethreadsbd.com}"
+DOMAIN="${DOMAIN:-hatekolom.org}"
 
 BACKEND_ENV="$BACKEND_DIR/.env.prod"
 
