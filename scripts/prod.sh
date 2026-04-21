@@ -119,11 +119,37 @@ setup_backend() {
   pip install --quiet gunicorn uvicorn
   success "Backend dependencies installed"
 
-  # Migrations
+  # Source env for DB access
   set -a; source "$BACKEND_ENV"; set +a
-  info "Running database migrations…"
-  alembic upgrade head
-  success "Migrations applied"
+
+  # Check if DB has any tables (fresh vs existing)
+  TABLE_COUNT=$(python3 -c "
+from sqlalchemy import create_engine, inspect
+import os
+e = create_engine(os.environ['DATABASE_URL_SYNC'])
+print(len(inspect(e).get_table_names()))
+e.dispose()
+" 2>/dev/null || echo "0")
+
+  if [[ "$TABLE_COUNT" == "0" ]]; then
+    info "Fresh database detected — generating full schema…"
+    python3 -c "
+from sqlalchemy import create_engine
+from app.db import Base
+import app.models
+import os
+e = create_engine(os.environ['DATABASE_URL_SYNC'])
+Base.metadata.create_all(e, checkfirst=True)
+e.dispose()
+print('Schema created')
+"
+    alembic stamp head
+    success "Schema created and Alembic stamped"
+  else
+    info "Running database migrations…"
+    alembic upgrade head
+    success "Migrations applied"
+  fi
   deactivate
 }
 

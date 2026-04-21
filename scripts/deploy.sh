@@ -123,18 +123,17 @@ set -a
 source .env.prod
 set +a
 
-# Safely generate full schema natively bypassing the broken initial alembic file
+# Safely generate full schema (sync engine resolves FK ordering on fresh DB)
 python -c "
-import asyncio
-import os
-from app.db import engine, Base
-import app.models 
+from sqlalchemy import create_engine
+from app.db import Base
+import app.models
 
-async def init_db():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
-asyncio.run(init_db())
+sync_url = '${DATABASE_URL_SYNC}'
+engine = create_engine(sync_url)
+Base.metadata.create_all(engine, checkfirst=True)
+engine.dispose()
+print('Schema created successfully')
 "
 # Synchronize Alembic state natively
 alembic stamp head
