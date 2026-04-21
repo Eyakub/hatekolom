@@ -13,7 +13,7 @@
 #    7. Saves PM2 process list for boot persistence
 #
 #  Usage:
-#    cd ~/apps/lms && bash scripts/deploy.sh
+#    cd ~/apps/hatekolom && bash scripts/deploy.sh
 #
 #  Environment (optional overrides):
 #    DB_NAME=hatekolom_db  DB_USER=eyakub  DB_PASSWORD=secret
@@ -21,7 +21,7 @@
 #    DOMAIN=yourdomain.com
 #
 #  Re-deploy (update only):
-#    cd ~/apps/lms && git pull && bash scripts/deploy.sh
+#    cd ~/apps/hatekolom && git pull && bash scripts/deploy.sh
 # ─────────────────────────────────────────────────────────────
 set -euo pipefail
 
@@ -35,7 +35,7 @@ warn()    { echo -e "${YELLOW}[WARN]${NC}  $*"; }
 die()     { echo -e "${RED}[ERROR]${NC} $*" >&2; exit 1; }
 
 # ── Config (with defaults) ───────────────────────────────────
-PROJECT_NAME="${PROJECT_NAME:-lms}"
+PROJECT_NAME="${PROJECT_NAME:-hatekolom}"
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 BACKEND_DIR="${PROJECT_DIR}/backend"
 FRONTEND_DIR="${PROJECT_DIR}/frontend"
@@ -368,7 +368,7 @@ echo -e "  ${GREEN}pm2 restart all${NC}                       # Restart everythi
 echo -e "  ${GREEN}pm2 monit${NC}                             # Live monitoring"
 echo ""
 echo -e "${BOLD}Re-deploy:${NC}"
-echo -e "  ${GREEN}cd ~/apps/lms && git pull && bash scripts/deploy.sh${NC}"
+echo -e "  ${GREEN}cd ~/apps/hatekolom && git pull && bash scripts/deploy.sh${NC}"
 echo ""
 if [[ "$DOMAIN" == "_" ]]; then
   echo -e "${BOLD}SSL Setup:${NC}"

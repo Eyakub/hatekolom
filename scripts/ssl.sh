@@ -9,7 +9,7 @@ set -euo pipefail
 
 DOMAIN=${1:?"Usage: ./ssl.sh yourdomain.com admin@email.com"}
 EMAIL=${2:?"Usage: ./ssl.sh yourdomain.com admin@email.com"}
-PROJECT_NAME="${PROJECT_NAME:-lms}"
+PROJECT_NAME="${PROJECT_NAME:-hatekolom}"
 
 echo "=== Setting up SSL for ${DOMAIN} ==="
 

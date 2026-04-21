@@ -7,7 +7,7 @@ ls -la /etc/nginx/sites-enabled/
 
 echo ""
 echo "=== LMS NGINX CONFIG ==="
-cat /etc/nginx/sites-available/lms 2>/dev/null || echo "FILE NOT FOUND"
+cat /etc/nginx/sites-available/hatekolom 2>/dev/null || echo "FILE NOT FOUND"
 
 echo ""
 echo "=== MAIN DOMAIN NGINX CONFIG ==="
@@ -26,5 +26,5 @@ echo "=== NGINX TEST ==="
 sudo nginx -t
 
 echo ""
-echo "=== CURL TEST (what lms subdomain returns) ==="
-curl -I http://lms.attirethreadsbd.com 2>/dev/null | head -20
+echo "=== CURL TEST (what hatekolom domain returns) ==="
+curl -I http://hatekolom.org 2>/dev/null | head -20

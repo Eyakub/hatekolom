@@ -87,7 +87,7 @@ export const useCartStore = create<CartState>()(
         get().items.every((i) => i.productType === "physical_book"),
     }),
     {
-      name: "lms-cart",
+      name: "hatekolom-cart",
     }
   )
 );

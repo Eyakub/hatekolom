@@ -3,13 +3,13 @@
 # Database Backup — Bare Metal (cron job)
 # ============================================
 # Install: sudo crontab -e
-# Add:     0 3 * * * /opt/lms/scripts/backup.sh
+# Add:     0 3 * * * /opt/hatekolom/scripts/backup.sh
 # (runs daily at 3 AM)
 # ============================================
 
 set -euo pipefail
 
-BACKUP_DIR="/opt/lms/backups"
+BACKUP_DIR="/opt/hatekolom/backups"
 DATE=$(date +%Y%m%d_%H%M%S)
 FILENAME="hatekolom_backup_${DATE}.sql.gz"
 

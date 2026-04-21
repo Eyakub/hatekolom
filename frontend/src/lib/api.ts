@@ -9,7 +9,7 @@ let refreshPromise: Promise<any> | null = null;
 
 function getStoredAuth(): { accessToken: string | null; refreshToken: string | null } {
   try {
-    const raw = localStorage.getItem("lms-auth");
+    const raw = localStorage.getItem("hatekolom-auth");
     if (!raw) return { accessToken: null, refreshToken: null };
     const parsed = JSON.parse(raw);
     return {
@@ -23,18 +23,18 @@ function getStoredAuth(): { accessToken: string | null; refreshToken: string | n
 
 function updateStoredTokens(accessToken: string, refreshToken: string) {
   try {
-    const raw = localStorage.getItem("lms-auth");
+    const raw = localStorage.getItem("hatekolom-auth");
     if (!raw) return;
     const parsed = JSON.parse(raw);
     parsed.state.accessToken = accessToken;
     parsed.state.refreshToken = refreshToken;
-    localStorage.setItem("lms-auth", JSON.stringify(parsed));
+    localStorage.setItem("hatekolom-auth", JSON.stringify(parsed));
   } catch {}
 }
 
 function clearAuthAndRedirect() {
   try {
-    localStorage.removeItem("lms-auth");
+    localStorage.removeItem("hatekolom-auth");
   } catch {}
   if (typeof window !== "undefined" && !window.location.pathname.startsWith("/login")) {
     window.location.href = "/login";

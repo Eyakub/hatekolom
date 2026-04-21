@@ -59,7 +59,7 @@ export function SecureVideoPlayer({
     const sendHeartbeat = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
-        const storedToken = localStorage.getItem("lms-auth");
+        const storedToken = localStorage.getItem("hatekolom-auth");
         let accessToken = "";
         if (storedToken) {
           const parsed = JSON.parse(storedToken);

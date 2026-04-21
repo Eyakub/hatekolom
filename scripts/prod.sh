@@ -35,7 +35,7 @@ LOGS_DIR="$ROOT/logs"
 ECOSYSTEM_FILE="$ROOT/ecosystem.config.js"
 
 # ── Config (env overrides supported) ─────────────────────────
-PROJECT_NAME="${PROJECT_NAME:-lms}"
+PROJECT_NAME="${PROJECT_NAME:-hatekolom}"
 BACKEND_PORT="${BACKEND_PORT:-8001}"
 FRONTEND_PORT="${FRONTEND_PORT:-3001}"
 DOMAIN="${DOMAIN:-hatekolom.org}"

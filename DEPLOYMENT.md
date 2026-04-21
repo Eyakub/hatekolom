@@ -14,8 +14,8 @@ Two deployment options: **Docker** (isolated, heavier) or **Bare Metal** (lightw
 ## Common: Clone & Configure
 
 ```bash
-git clone <your-repo-url> /opt/lms
-cd /opt/lms
+git clone <your-repo-url> /opt/hatekolom
+cd /opt/hatekolom
 
 # Create production env file
 cp backend/.env.prod.example backend/.env.prod
@@ -164,44 +164,44 @@ Add a cron job (runs daily at 3 AM):
 ```bash
 sudo crontab -e
 # Add this line:
-0 3 * * * /opt/lms/scripts/backup.sh
+0 3 * * * /opt/hatekolom/scripts/backup.sh
 ```
 
-- Location: `/opt/lms/backups/`
+- Location: `/opt/hatekolom/backups/`
 - Retention: 7 days
 - Format: `hatekolom_backup_YYYYMMDD_HHMMSS.sql.gz`
 
 ```bash
 # Manual backup
-sudo -u postgres pg_dump hatekolom_db | gzip > /opt/lms/backups/manual_$(date +%Y%m%d).sql.gz
+sudo -u postgres pg_dump hatekolom_db | gzip > /opt/hatekolom/backups/manual_$(date +%Y%m%d).sql.gz
 
 # Restore
-gunzip -c /opt/lms/backups/hatekolom_backup_20260401.sql.gz | sudo -u postgres psql hatekolom_db
+gunzip -c /opt/hatekolom/backups/hatekolom_backup_20260401.sql.gz | sudo -u postgres psql hatekolom_db
 ```
 
 ### 5. Managing Services
 
 ```bash
 # Status
-sudo systemctl status lms-backend
-sudo systemctl status lms-frontend
+sudo systemctl status hatekolom-backend
+sudo systemctl status hatekolom-frontend
 
 # Restart
-sudo systemctl restart lms-backend
-sudo systemctl restart lms-frontend
+sudo systemctl restart hatekolom-backend
+sudo systemctl restart hatekolom-frontend
 
 # Logs (live)
-journalctl -u lms-backend -f
-journalctl -u lms-frontend -f
+journalctl -u hatekolom-backend -f
+journalctl -u hatekolom-frontend -f
 
 # Backend error log
-tail -f /var/log/lms/backend-error.log
+tail -f /var/log/hatekolom/backend-error.log
 ```
 
 ### 6. Updates (bare metal)
 
 ```bash
-cd /opt/lms
+cd /opt/hatekolom
 git pull origin main
 
 # Backend
@@ -210,12 +210,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 alembic upgrade head
 deactivate
-sudo systemctl restart lms-backend
+sudo systemctl restart hatekolom-backend
 
 # Frontend
 cd ../frontend
 npm ci && npm run build
-sudo systemctl restart lms-frontend
+sudo systemctl restart hatekolom-frontend
 ```
 
 ---

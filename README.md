@@ -10,8 +10,8 @@
 
 1. **Initialize the App**
    ```bash
-   git clone <repo-url> lms
-   cd lms
+   git clone <repo-url> hatekolom
+   cd hatekolom
    # Automatically sets up Python venv, installs Node deps, syncs the DB, and runs servers natively
    bash scripts/dev.sh
    ```
@@ -33,8 +33,8 @@
 
 1. **Start all services**
    ```bash
-   git clone <repo-url> lms
-   cd lms
+   git clone <repo-url> hatekolom
+   cd hatekolom
    docker compose up --build -d
    ```
 
@@ -61,7 +61,7 @@
 ## 🏗 Architecture
 
 ```
-lms/
+hatekolom/
 ├── backend/                  # FastAPI (Python 3.12)
 │   ├── app/
 │   │   ├── api/v1/           # Route handlers
