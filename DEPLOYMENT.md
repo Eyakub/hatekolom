@@ -1,4 +1,4 @@
-# Happy Baby — Production Deployment Guide
+# Hate Kolom — Production Deployment Guide
 
 Two deployment options: **Docker** (isolated, heavier) or **Bare Metal** (lightweight, multiple projects on one server).
 
@@ -67,8 +67,8 @@ sed -i "s/\${DOMAIN}/yourdomain.com/g" nginx/nginx.conf
 ```bash
 export POSTGRES_PASSWORD=<strong-db-password>
 export REDIS_PASSWORD=<strong-redis-password>
-export POSTGRES_USER=lms_user
-export POSTGRES_DB=lms_db
+export POSTGRES_USER=hatekolom_user
+export POSTGRES_DB=hatekolom_db
 export DOMAIN=yourdomain.com
 
 # Build and start
@@ -90,12 +90,12 @@ Runs automatically every 24 hours via the `db-backup` sidecar container.
 ```bash
 # Manual backup
 docker compose -f docker-compose.prod.yml exec db \
-  pg_dump -U lms_user lms_db | gzip > backups/manual_$(date +%Y%m%d).sql.gz
+  pg_dump -U hatekolom_user hatekolom_db | gzip > backups/manual_$(date +%Y%m%d).sql.gz
 
 # Restore
-gunzip -c backups/lms_backup_20260401.sql.gz | \
+gunzip -c backups/hatekolom_backup_20260401.sql.gz | \
   docker compose -f docker-compose.prod.yml exec -T db \
-  psql -U lms_user lms_db
+  psql -U hatekolom_user hatekolom_db
 ```
 
 ### 5. SSL Renewal (Docker)
@@ -139,20 +139,20 @@ sudo -E bash scripts/server-setup.sh
 
 ### 2. Deploy
 
-Creates Python venv, installs deps, builds Next.js, sets up systemd services, configures Nginx.
+Creates Python venv, installs deps, builds Next.js, configures PM2 and Nginx.
 
 ```bash
-sudo bash scripts/deploy-bare.sh
+sudo bash scripts/deploy.sh
 ```
 
-This creates two systemd services:
-- `lms-backend` — Gunicorn + Uvicorn (port 8000)
-- `lms-frontend` — Next.js standalone (port 3000)
+This sets up:
+- PM2-managed backend (Gunicorn + Uvicorn, port 8000)
+- PM2-managed frontend (Next.js standalone, port 3000)
 
 ### 3. SSL Certificate
 
 ```bash
-sudo bash scripts/ssl-bare.sh yourdomain.com admin@yourdomain.com
+sudo bash scripts/ssl.sh yourdomain.com admin@yourdomain.com
 ```
 
 Uses certbot's nginx plugin — one command, auto-renewal included.
@@ -164,19 +164,19 @@ Add a cron job (runs daily at 3 AM):
 ```bash
 sudo crontab -e
 # Add this line:
-0 3 * * * /opt/lms/scripts/backup-bare.sh
+0 3 * * * /opt/lms/scripts/backup.sh
 ```
 
 - Location: `/opt/lms/backups/`
 - Retention: 7 days
-- Format: `lms_backup_YYYYMMDD_HHMMSS.sql.gz`
+- Format: `hatekolom_backup_YYYYMMDD_HHMMSS.sql.gz`
 
 ```bash
 # Manual backup
-sudo -u postgres pg_dump lms_db | gzip > /opt/lms/backups/manual_$(date +%Y%m%d).sql.gz
+sudo -u postgres pg_dump hatekolom_db | gzip > /opt/lms/backups/manual_$(date +%Y%m%d).sql.gz
 
 # Restore
-gunzip -c /opt/lms/backups/lms_backup_20260401.sql.gz | sudo -u postgres psql lms_db
+gunzip -c /opt/lms/backups/hatekolom_backup_20260401.sql.gz | sudo -u postgres psql hatekolom_db
 ```
 
 ### 5. Managing Services

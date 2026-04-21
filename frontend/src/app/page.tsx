@@ -843,7 +843,7 @@ export default function HomePage() {
       </section>
 
       {/* ============================================
-          HAPPY BABY E-LIBRARY (Supplementary Content)
+          HATE KOLOM E-LIBRARY (Supplementary Content)
           ============================================ */}
       <HappyBabyELibrary />
 

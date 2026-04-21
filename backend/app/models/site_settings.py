@@ -17,13 +17,13 @@ class SiteSettings(Base):
     __tablename__ = "site_settings"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    platform_name = Column(String, default="Happy Baby", nullable=False)
+    platform_name = Column(String, default="Hate Kolom", nullable=False)
     logo_url = Column(String, default="", nullable=True)
     favicon_url = Column(String, default="", nullable=True)
 
     # Contact info
     support_phone = Column(String, default="09610990880", nullable=True)
-    support_email = Column(String, default="support@happybaby.com", nullable=True)
+    support_email = Column(String, default="support@hatekolom.com", nullable=True)
     office_address = Column(String, default="Dhaka, Bangladesh", nullable=True)
 
     # Socials

@@ -39,7 +39,7 @@ export function DashboardSidebar() {
       {/* Branding */}
       <div className="mb-12 px-2 hidden lg:block">
         <h1 className="text-[26px] font-black text-primary-900 font-serif tracking-wide leading-none">
-          Happy<span className="text-primary-600">.</span>Baby
+          Hate<span className="text-primary-600">.</span>Kolom
         </h1>
         <p className="text-[10px] text-gray-500 mt-1.5 tracking-widest uppercase font-semibold">Guardian Portal</p>
       </div>

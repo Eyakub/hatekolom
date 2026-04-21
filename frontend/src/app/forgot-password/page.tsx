@@ -158,7 +158,7 @@ export default function ForgotPasswordPage() {
           <Link href="/" className="inline-flex items-center gap-2 mb-4">
             <GraduationCap className="w-10 h-10 text-primary-700" />
             <span className="text-2xl font-bold text-primary-800 font-[family-name:var(--font-display)]">
-              Happy Baby
+              Hate Kolom
             </span>
           </Link>
         </div>

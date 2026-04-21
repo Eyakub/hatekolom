@@ -68,7 +68,7 @@ class SMSService:
     @staticmethod
     async def send_otp(phone: str, otp: str) -> bool:
         """Send OTP verification SMS."""
-        message = f"আপনার Happy Baby যাচাইকরণ কোড: {otp}। ৫ মিনিটের মধ্যে ব্যবহার করুন।"
+        message = f"আপনার Hate Kolom যাচাইকরণ কোড: {otp}। ৫ মিনিটের মধ্যে ব্যবহার করুন।"
         return await SMSService.send_sms(phone, message)
 
     @staticmethod

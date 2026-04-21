@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────
-#  prod.sh  –  Happy Baby Native Production Manager (PM2 only)
+#  prod.sh  –  Hate Kolom Native Production Manager (PM2 only)
 #  Handles backend + frontend deployment WITHOUT touching Nginx or SSL.
 #  Use this instead of deploy.sh when Nginx/Certbot is already configured.
 #

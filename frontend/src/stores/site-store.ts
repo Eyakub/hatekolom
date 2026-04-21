@@ -27,11 +27,11 @@ interface SiteStore {
 }
 
 const defaultSettings: SiteSettings = {
-  platform_name: "Happy Baby",
+  platform_name: "Hate Kolom",
   logo_url: "",
   favicon_url: "",
   support_phone: "09610990880",
-  support_email: "support@happybaby.com",
+  support_email: "support@hatekolom.com",
   office_address: "Dhaka, Bangladesh",
   facebook_url: "https://facebook.com",
   youtube_url: "https://youtube.com",

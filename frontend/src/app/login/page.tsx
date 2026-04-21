@@ -177,7 +177,7 @@ function LoginContent() {
           {/* Branding */}
           <div className="mb-8 text-center md:text-left">
             <Link href="/" className="inline-flex items-center gap-2 mb-1">
-              <span className="font-[family-name:var(--font-display)] text-3xl font-bold text-primary-800">Happy Baby</span>
+              <span className="font-[family-name:var(--font-display)] text-3xl font-bold text-primary-800">Hate Kolom</span>
             </Link>
             <p className="text-sm text-gray-400 font-bn">অভিভাবক হিসেবে লগইন করুন</p>
           </div>

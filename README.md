@@ -1,4 +1,4 @@
-# Happy Baby
+# Hate Kolom
 
 > **Play, Learn, Grow** — a Bengali-first educational platform for kids (ages 3–13), managed by parents. Built with **FastAPI**, **Next.js 16**, **PostgreSQL 16**, and **Redis 7**.
 
@@ -177,7 +177,7 @@ docker compose logs -f frontend
 docker compose up --build -d
 
 # Access PostgreSQL
-docker compose exec db psql -U lms_user -d lms_db
+docker compose exec db psql -U hatekolom_user -d hatekolom_db
 ```
 
 ---
@@ -203,9 +203,9 @@ We provide robust, automated bash scripts to configure a fresh Ubuntu droplet an
    ```
 
 3. **Enable SSL (HTTPS) — ⚠️ CRITICAL STEP**
-   You **must** run the SSL generator immediately. If you skip this, Nginx will not open port 443 for the LMS, and your HTTPS traffic will visually collide/fallback into other apps on your server (e.g. Threadstack setups)!
+   You **must** run the SSL generator immediately. If you skip this, Nginx will not open port 443 for the LMS, and your HTTPS traffic will visually collide/fallback into other apps on your server (e.g. other setups)!
    ```bash
-   sudo bash scripts/ssl-bare.sh yourdomain.com admin@email.com
+   sudo bash scripts/ssl.sh yourdomain.com admin@email.com
    ```
 
 ### Option B: Docker Compose

@@ -71,12 +71,12 @@ class EmailService:
     @staticmethod
     async def send_welcome_email(name: str, email: str, phone: str) -> bool:
         """Send welcome email after registration."""
-        subject = "স্বাগতম — Happy Baby-এ যোগ দেওয়ার জন্য ধন্যবাদ!"
+        subject = "স্বাগতম — Hate Kolom-এ যোগ দেওয়ার জন্য ধন্যবাদ!"
         html = f"""
         <div style="font-family: 'Noto Sans Bengali', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="background: linear-gradient(135deg, #7c3aed, #a855f7); padding: 30px; border-radius: 16px; text-align: center; color: white;">
                 <h1 style="margin: 0; font-size: 24px;">স্বাগতম, {name}!</h1>
-                <p style="margin: 10px 0 0; opacity: 0.9;">Happy Baby-এ তোমার অ্যাকাউন্ট তৈরি হয়েছে।</p>
+                <p style="margin: 10px 0 0; opacity: 0.9;">Hate Kolom-এ তোমার অ্যাকাউন্ট তৈরি হয়েছে।</p>
             </div>
             <div style="padding: 24px 0;">
                 <p>প্রিয় {name},</p>
@@ -94,11 +94,11 @@ class EmailService:
                 </div>
             </div>
             <div style="border-top: 1px solid #e5e7eb; padding-top: 16px; font-size: 12px; color: #9ca3af; text-align: center;">
-                <p>এই ইমেইল Happy Baby থেকে পাঠানো হয়েছে।</p>
+                <p>এই ইমেইল Hate Kolom থেকে পাঠানো হয়েছে।</p>
             </div>
         </div>
         """
-        return await EmailService.send_email(email, subject, html, f"স্বাগতম {name}! Happy Baby-এ তোমার অ্যাকাউন্ট তৈরি হয়েছে।")
+        return await EmailService.send_email(email, subject, html, f"স্বাগতম {name}! Hate Kolom-এ তোমার অ্যাকাউন্ট তৈরি হয়েছে।")
 
     @staticmethod
     async def send_order_confirmation(
@@ -143,7 +143,7 @@ class EmailService:
                 </div>
             </div>
             <div style="border-top: 1px solid #e5e7eb; padding-top: 16px; font-size: 12px; color: #9ca3af; text-align: center;">
-                <p>এই ইমেইল Happy Baby থেকে পাঠানো হয়েছে।</p>
+                <p>এই ইমেইল Hate Kolom থেকে পাঠানো হয়েছে।</p>
             </div>
         </div>
         """
@@ -153,7 +153,7 @@ class EmailService:
     @staticmethod
     async def send_password_reset(email: str, name: str, reset_token: str) -> bool:
         """Send password reset email with token link."""
-        subject = "পাসওয়ার্ড রিসেট — Happy Baby"
+        subject = "পাসওয়ার্ড রিসেট — Hate Kolom"
         reset_url = f"http://localhost:3000/reset-password?token={reset_token}"
         html = f"""
         <div style="font-family: 'Noto Sans Bengali', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">

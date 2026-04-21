@@ -77,7 +77,7 @@ export function PlatformAchievements({ data }: { data: any }) {
             </div>
 
             <h2 className="text-3xl md:text-5xl font-extrabold font-bn leading-tight mb-4 tracking-tight drop-shadow-sm">
-              {t("৪ বছরে হ্যাপি বেবির অর্জন", "Happy Baby's Achievement in 4 Years")}
+              {t("৪ বছরে হেইট কলমের অর্জন", "Hate Kolom's Achievement in 4 Years")}
             </h2>
             <p className="text-primary-100 opacity-90 text-lg leading-relaxed max-w-md font-medium">
               {t("আমাদের কমিউনিটির সাথে মিলে একটি উজ্জ্বল এবং বুদ্ধিদীপ্ত ভবিষ্যৎ গড়ে তুলি।", "Hand in hand with our community, let's build a brighter, smarter future together.")}

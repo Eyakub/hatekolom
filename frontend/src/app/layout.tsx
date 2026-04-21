@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Happy Baby — Play, Learn, Grow",
+  title: "Hate Kolom — Play, Learn, Grow",
   description:
     "বাংলাদেশের শিশুদের জন্য আধুনিক শিক্ষা প্ল্যাটফর্ম। ঘরে বসে শিখুন অ্যাবাকাস, ম্যাথ, কোডিং ও আরও অনেক কিছু।",
   keywords: ["education", "bangladesh", "kids", "online learning", "lms"],

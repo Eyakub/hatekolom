@@ -112,13 +112,13 @@ async def lifespan(app: FastAPI):
     # Startup: bootstrap roles, permissions, superadmin
     # Tables are managed by Alembic migrations
     await bootstrap_db()
-    logger.info("Happy Baby started successfully")
+    logger.info("Hate Kolom started successfully")
 
     yield
 
     # Shutdown
     await engine.dispose()
-    logger.info("Happy Baby shut down")
+    logger.info("Hate Kolom shut down")
 
 
 def create_app() -> FastAPI:

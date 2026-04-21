@@ -2,13 +2,13 @@
 # ============================================
 # SSL Setup — Bare Metal (Certbot + Nginx)
 # ============================================
-# Usage: sudo bash scripts/ssl-bare.sh yourdomain.com admin@email.com
+# Usage: sudo bash scripts/ssl.sh yourdomain.com admin@email.com
 # ============================================
 
 set -euo pipefail
 
-DOMAIN=${1:?"Usage: ./ssl-bare.sh yourdomain.com admin@email.com"}
-EMAIL=${2:?"Usage: ./ssl-bare.sh yourdomain.com admin@email.com"}
+DOMAIN=${1:?"Usage: ./ssl.sh yourdomain.com admin@email.com"}
+EMAIL=${2:?"Usage: ./ssl.sh yourdomain.com admin@email.com"}
 PROJECT_NAME="${PROJECT_NAME:-lms}"
 
 echo "=== Setting up SSL for ${DOMAIN} ==="

@@ -97,7 +97,7 @@ function CertificatePreview({ result }: { result: any }) {
                   </div>
                   <div>
                     <span className="text-base font-black text-primary-900 font-serif tracking-wide block leading-none">
-                      Happy<span className="text-primary-500">.</span>Baby
+                      Hate<span className="text-primary-500">.</span>Kolom
                     </span>
                     <span className="text-[7px] text-gray-400 uppercase tracking-[0.2em] font-semibold">
                       Academic Credential Registry
@@ -198,7 +198,7 @@ function CertificatePreview({ result }: { result: any }) {
             <div className="bg-gradient-to-r from-primary-800 via-primary-700 to-primary-800 px-8 py-3 text-center relative overflow-hidden">
               <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.1) 20px, rgba(255,255,255,0.1) 21px)' }} />
               <p className="text-[8px] text-primary-100/70 tracking-wider relative z-10">
-                Exclusively verified by Happy Baby Credential Registry • All rights reserved © {new Date().getFullYear()} • Verify at happybaby.com/verify
+                Exclusively verified by Hate Kolom Credential Registry • All rights reserved © {new Date().getFullYear()} • Verify at hatekolom.com/verify
               </p>
             </div>
           </div>
@@ -271,7 +271,7 @@ function VerifyContent() {
               </div>
               <div>
                 <h1 className="text-lg font-black text-primary-900 font-serif tracking-wide leading-none">
-                  Happy<span className="text-primary-600">.</span>Baby
+                  Hate<span className="text-primary-600">.</span>Kolom
                 </h1>
               </div>
             </div>
@@ -322,7 +322,7 @@ function VerifyContent() {
                 Certificate Verification
               </h1>
               <p className="text-sm text-gray-500 mt-1.5 max-w-sm mx-auto leading-relaxed">
-                Validate the authenticity of Happy Baby credentials using the unique certificate identifier.
+                Validate the authenticity of Hate Kolom credentials using the unique certificate identifier.
               </p>
             </div>
 
@@ -379,7 +379,7 @@ function VerifyContent() {
                         <div className="flex-1 min-w-0">
                           <h3 className="font-bold text-green-800 text-sm">Certificate Verified</h3>
                           <p className="text-xs text-green-600 mt-0.5">
-                            This is a legitimate Happy Baby credential issued on{" "}
+                            This is a legitimate Hate Kolom credential issued on{" "}
                             {new Date(result.issued_at).toLocaleDateString("en-US", {
                               year: "numeric", month: "long", day: "numeric",
                             })}
@@ -441,7 +441,7 @@ function VerifyContent() {
           {/* Footer */}
           <div className="text-center mt-12">
             <p className="text-[10px] text-gray-400 tracking-wide">
-              Exclusively verified by Happy Baby Credential Registry. All rights reserved © {new Date().getFullYear()}
+              Exclusively verified by Hate Kolom Credential Registry. All rights reserved © {new Date().getFullYear()}
             </p>
           </div>
         </main>

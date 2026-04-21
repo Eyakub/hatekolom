@@ -26,7 +26,7 @@
 #  After running:
 #    1. Open a NEW terminal, confirm: ssh eyakub@YOUR_IP
 #    2. Only THEN close the root session
-#    3. Clone your project(s) and run ./scripts/deploy-bare.sh
+#    3. Clone your project(s) and run ./scripts/deploy.sh
 #
 #  DBeaver: connect via SSH tunnel (eyakub@IP → localhost:5432)
 #  Ports 5432/6379 are NOT exposed — this is intentional.
@@ -53,7 +53,7 @@ PG_VERSION=16
 
 echo ""
 echo -e "${BOLD}════════════════════════════════════════════════════════${NC}"
-echo -e "${BOLD}  Happy Baby — Fresh Server Setup — Ubuntu 24.04 LTS${NC}"
+echo -e "${BOLD}  Hate Kolom — Fresh Server Setup — Ubuntu 24.04 LTS${NC}"
 echo -e "${BOLD}════════════════════════════════════════════════════════${NC}"
 echo ""
 
@@ -114,9 +114,12 @@ AllowAgentForwarding no
 AllowTcpForwarding yes
 SSH_CONF
 
+# Ensure privilege separation directory exists (required by sshd -t on Ubuntu 24.04)
+mkdir -p /run/sshd
+
 # Validate config before reloading
 sshd -t || die "SSH config test failed — fix /etc/ssh/sshd_config.d/99-hardening.conf"
-systemctl reload ssh
+systemctl reload sshd 2>/dev/null || systemctl reload ssh 2>/dev/null || warn "Could not reload SSH — restart manually"
 success "SSH hardened (key-only, root via console only, TCP forwarding for DBeaver)"
 
 # ═════════════════════════════════════════════════════════════
@@ -398,7 +401,7 @@ info "Clone projects here: git clone <repo> ${PROJECT_DIR}/<project-name>"
 # ═════════════════════════════════════════════════════════════
 echo ""
 echo -e "${BOLD}════════════════════════════════════════════════════════${NC}"
-echo -e "${GREEN}${BOLD}  Happy Baby — Server Setup Complete!${NC}"
+echo -e "${GREEN}${BOLD}  Hate Kolom — Server Setup Complete!${NC}"
 echo -e "${BOLD}════════════════════════════════════════════════════════${NC}"
 echo ""
 echo -e "${BOLD}Installed:${NC}"
@@ -436,7 +439,7 @@ echo -e "     ${GREEN}cd ~/apps && git clone <repo> lms${NC}"
 echo -e "  ${CYAN}5.${NC} Deploy:"
 echo -e "     ${GREEN}cd ~/apps/lms && bash scripts/deploy.sh${NC}"
 echo -e "  ${CYAN}6.${NC} Set up SSL:"
-echo -e "     ${GREEN}sudo bash scripts/ssl-bare.sh yourdomain.com admin@email.com${NC}"
+echo -e "     ${GREEN}sudo bash scripts/ssl.sh yourdomain.com admin@email.com${NC}"
 echo ""
 echo -e "${BOLD}DBeaver Connection:${NC}"
 echo -e "  Type:       PostgreSQL"

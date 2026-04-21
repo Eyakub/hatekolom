@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────
-#  dev.sh  –  Happy Baby — Native Local Development Script
+#  dev.sh  –  Hate Kolom — Native Local Development Script
 #  Run both Backend and Frontend locally without Docker.
 #
 #  Prerequisites (Native on Mac/Linux):
@@ -33,15 +33,15 @@ FRONTEND_PORT="${FRONTEND_PORT:-3001}"
 # ============================================
 # Override Docker hostnames for native Localhost
 # ============================================
-export DATABASE_URL=${DATABASE_URL:-"postgresql+asyncpg://postgres:@localhost:5432/lms_user"}
-export DATABASE_URL_SYNC=${DATABASE_URL_SYNC:-"postgresql://postgres:@localhost:5432/lms_user"}
+export DATABASE_URL=${DATABASE_URL:-"postgresql+asyncpg://postgres:@localhost:5432/hatekolom_db"}
+export DATABASE_URL_SYNC=${DATABASE_URL_SYNC:-"postgresql://postgres:@localhost:5432/hatekolom_db"}
 export REDIS_URL=${REDIS_URL:-"redis://localhost:6379/0"}
 # Map NEXT_PUBLIC_API_URL locally
 export NEXT_PUBLIC_API_URL="http://localhost:${BACKEND_PORT}/api/v1"
 export PORT="${FRONTEND_PORT}"
 
 echo -e "${BOLD}════════════════════════════════════════════════════════${NC}"
-echo -e "${BOLD}  Happy Baby — Native Local Dev Server${NC}"
+echo -e "${BOLD}  Hate Kolom — Native Local Dev Server${NC}"
 echo -e "${BOLD}════════════════════════════════════════════════════════${NC}"
 echo ""
 

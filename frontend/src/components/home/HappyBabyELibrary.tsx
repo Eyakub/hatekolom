@@ -150,7 +150,7 @@ export function HappyBabyELibrary() {
           const mapped = items.slice(0, 4).map((eb: any, i: number) => ({
             id: eb.id || i,
             title: eb.title_bn || eb.title,
-            author: eb.author || "Happy Baby Explorer",
+            author: eb.author || "Hate Kolom Explorer",
             price: eb.is_free ? t("ফ্রি", "Free") : `৳${eb.price}`,
             rawPrice: eb.price,
             compare_price: eb.compare_price || null,
@@ -174,7 +174,7 @@ export function HappyBabyELibrary() {
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         <header className="mb-12">
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-2">
-            {t("হ্যাপি বেবি ই-লাইব্রেরি", "Happy Baby E-Library")}
+            {t("হেইট কলম ই-লাইব্রেরি", "Hate Kolom E-Library")}
           </h2>
           <p className="text-lg text-gray-600 font-sans font-medium">
             {t("অ্যাডভেঞ্চার এখন হাতের মুঠোয়", "Adventure at Your Fingertips")}

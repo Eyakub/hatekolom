@@ -14,7 +14,7 @@ from app.core.security import hash_password
 
 async def create_superuser():
     print("===========================================")
-    print("       Happy Baby — Create Superuser       ")
+    print("       Hate Kolom — Create Superuser       ")
     print("===========================================")
     
     phone = input("Phone Number: ").strip()

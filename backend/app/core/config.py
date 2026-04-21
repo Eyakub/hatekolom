@@ -5,15 +5,15 @@ import json
 
 class Settings(BaseSettings):
     # Application
-    APP_NAME: str = "Happy Baby"
+    APP_NAME: str = "Hate Kolom"
     APP_VERSION: str = "0.1.0"
     DEBUG: bool = True
     SECRET_KEY: str = "change-me"
     API_V1_PREFIX: str = "/api/v1"
 
     # Database
-    DATABASE_URL: str = "postgresql+asyncpg://lms_user:lms_pass@db:5432/lms_user"
-    DATABASE_URL_SYNC: str = "postgresql://lms_user:lms_pass@db:5432/lms_user"
+    DATABASE_URL: str = "postgresql+asyncpg://hatekolom_user:hatekolom_pass@db:5432/hatekolom_db"
+    DATABASE_URL_SYNC: str = "postgresql://hatekolom_user:hatekolom_pass@db:5432/hatekolom_db"
 
     # Redis
     REDIS_URL: str = "redis://redis:6379/0"
@@ -36,7 +36,7 @@ class Settings(BaseSettings):
 
     # SMS
     SMS_API_KEY: str = "mock"
-    SMS_SENDER_ID: str = "HappyBaby"
+    SMS_SENDER_ID: str = "HateKolom"
 
     # CORS
     CORS_ORIGINS: str = '["http://localhost:3000"]'
@@ -59,7 +59,7 @@ class Settings(BaseSettings):
     SMTP_PORT: int = 587
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
-    SMTP_FROM_NAME: str = "Happy Baby"
+    SMTP_FROM_NAME: str = "Hate Kolom"
     SMTP_FROM_EMAIL: str = "noreply@example.com"
 
     # SMS

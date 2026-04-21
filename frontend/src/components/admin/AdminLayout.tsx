@@ -174,7 +174,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 text-primary-700 hover:text-primary-800 transition-colors">
               <GraduationCap className="w-5 h-5" />
-              <span className="font-bold text-sm hidden sm:block">Happy Baby</span>
+              <span className="font-bold text-sm hidden sm:block">Hate Kolom</span>
             </Link>
             <span className="text-gray-200">|</span>
             <span className="text-xs text-gray-400 font-semibold uppercase tracking-wide">Admin Panel</span>
