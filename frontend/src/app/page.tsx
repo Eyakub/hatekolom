@@ -423,27 +423,13 @@ export default function HomePage() {
       {/* ============================================
           HERO BANNER
           ============================================ */}
-      <section className="relative overflow-hidden" style={{ maxHeight: 'calc(100vh - 64px)' }}>
-        <Link href="/register" className="block">
-          <img
-            src="/hero_banner.jpeg"
-            alt={t("হাতে কলম — খেলো, শেখো, বড়ো হও", "Hate Kolom — Play, Learn, Grow")}
-            className="w-full h-full object-cover"
-            style={{ maxHeight: 'calc(100vh - 64px)' }}
-          />
-        </Link>
-
-        {/* Wave separator */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 60" className="w-full" preserveAspectRatio="none">
-            <path
-              fill="var(--color-surface)"
-              d="M0,40 C360,80 720,0 1440,40 L1440,60 L0,60 Z"
-            />
-          </svg>
-        </div>
+      <section className="w-full bg-white">
+        <img
+          src="/hero_banner.webp"
+          alt={t("হাতে কলম — খেলো, শেখো, বড়ো হও", "Hate Kolom — Play, Learn, Grow")}
+          className="w-full h-auto block"
+        />
       </section>
-
       {/* ============================================
           CORE BENEFITS / GOAL (Bento Layout)
           ============================================ */}
