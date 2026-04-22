@@ -782,11 +782,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ============================================
-          HATE KOLOM E-LIBRARY (Supplementary Content)
-          ============================================ */}
-      <HappyBabyELibrary />
-
 
 
       {/* ============================================
