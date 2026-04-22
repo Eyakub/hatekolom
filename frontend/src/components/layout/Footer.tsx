@@ -26,12 +26,7 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              {settings.logo_url ? (
-                <img src={settings.logo_url} alt={settings.platform_name} className="h-8 w-auto object-contain" />
-              ) : (
-                <GraduationCap className="w-7 h-7 text-[#ffce39]" />
-              )}
-              <span className="text-lg font-bold text-white">{settings.platform_name}</span>
+              <img src="/logo_white.png" alt={settings.platform_name} className="h-9 w-auto object-contain" />
             </div>
             <p className="text-sm text-white/50 font-bn leading-relaxed">
                {footerDesc}

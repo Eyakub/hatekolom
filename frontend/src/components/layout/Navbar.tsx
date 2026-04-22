@@ -105,16 +105,7 @@ function NavbarContent() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-            {settings.logo_url ? (
-              <img src={settings.logo_url} alt={settings.platform_name} className="h-8 w-auto object-contain" />
-            ) : (
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-md shadow-blue-500/30 group-hover:shadow-blue-400/40 transition-shadow">
-                <BookOpen className="w-5 h-5 text-white" />
-              </div>
-            )}
-            <span className="text-xl font-bold font-[family-name:var(--font-display)] text-white tracking-tight">
-              {settings.platform_name}
-            </span>
+            <img src="/logo_white.png" alt={settings.platform_name} className="h-9 w-auto object-contain" />
           </Link>
 
           {/* Desktop Nav Links */}

@@ -10,7 +10,7 @@ import { useLocaleStore } from "@/stores/locale-store";
 
 const navItems = [
   { href: "/dashboard", label: "ড্যাশবোর্ড", labelEn: "Dashboard", icon: LayoutGrid },
-  { href: "/dashboard/ebooks", label: "আমার ই-বুক", labelEn: "My Ebooks", icon: BookOpenText },
+  // { href: "/dashboard/ebooks", label: "আমার ই-বুক", labelEn: "My Ebooks", icon: BookOpenText },
   { href: "/dashboard/certificates", label: "সার্টিফিকেট", labelEn: "Certificates", icon: Award },
   { href: "/dashboard/orders", label: "অর্ডার সমূহ", labelEn: "Orders", icon: ShoppingBag },
   { href: "/dashboard/profile", label: "প্রোফাইল", labelEn: "Profile", icon: User },
