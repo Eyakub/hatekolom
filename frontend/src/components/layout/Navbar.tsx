@@ -214,61 +214,39 @@ function NavbarContent() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -8, scale: 0.96 }}
                       transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                      className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-[0_20px_60px_rgba(15,43,74,0.18)] border border-blue-100/50 z-50 origin-top-right overflow-hidden"
+                      className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-gray-100/80 z-50 origin-top-right overflow-hidden"
                     >
-                      {/* Profile Header */}
-                      <div className="relative bg-gradient-to-br from-[#0f2b4a] via-[#1a3f6f] to-[#2563eb] px-5 pt-5 pb-4">
-                        <div className="flex items-center gap-3">
-                          <div className="relative">
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-300 to-cyan-300 p-[2px]">
-                              <div className="w-full h-full rounded-full bg-[#1a3f6f] flex items-center justify-center">
-                                <span className="text-lg font-bold text-white">
-                                  {user.full_name?.[0]?.toUpperCase() || "U"}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-emerald-400 rounded-full border-2 border-[#1a3f6f]" />
+                      {/* Compact header */}
+                      <div className="px-4 py-3 bg-gradient-to-r from-[#0f2b4a] to-[#1a3f6f]">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                            <span className="text-sm font-bold text-white">{user.full_name?.[0]?.toUpperCase() || "U"}</span>
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-bold text-white truncate">
-                              {user.full_name}
-                            </p>
-                            <p className="text-[11px] text-blue-200 font-mono mt-0.5 truncate">{user.phone}</p>
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-white truncate">{user.full_name}</p>
+                            <p className="text-[11px] text-blue-200/70 truncate">{user.phone}</p>
                           </div>
                         </div>
-                        {user.roles && user.roles.length > 0 && (
-                          <div className="flex gap-1.5 mt-3">
-                            {user.roles.map((role: string) => (
-                              <span key={role} className="px-2 py-0.5 bg-white/15 backdrop-blur-sm text-[10px] font-bold text-blue-100 rounded-md uppercase tracking-wider">
-                                {role.replace("_", " ")}
-                              </span>
-                            ))}
-                          </div>
-                        )}
                       </div>
 
-                      {/* Menu Items */}
-                      <div className="p-2">
+                      {/* Menu */}
+                      <div className="p-1.5">
                         {!user.roles?.some((r) => ["super_admin", "admin"].includes(r)) && (
                           <Link
                             href="/dashboard"
-                            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all group font-bn"
+                            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-gray-600 hover:bg-blue-50 hover:text-blue-700 transition-colors font-bn"
                             onClick={() => setProfileOpen(false)}
                           >
-                            <div className="w-8 h-8 rounded-lg bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
-                              <LayoutDashboard className="w-4 h-4 text-blue-600" />
-                            </div>
+                            <LayoutDashboard className="w-4 h-4" />
                             {t("ড্যাশবোর্ড", "Dashboard")}
                           </Link>
                         )}
                         <Link
                           href="/dashboard/profile"
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all group font-bn"
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-gray-600 hover:bg-blue-50 hover:text-blue-700 transition-colors font-bn"
                           onClick={() => setProfileOpen(false)}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
-                            <User className="w-4 h-4 text-blue-600" />
-                          </div>
+                          <User className="w-4 h-4" />
                           {t("প্রোফাইল", "Profile")}
                         </Link>
                         {user.roles?.some((r) =>
@@ -276,31 +254,26 @@ function NavbarContent() {
                         ) && (
                           <Link
                             href="/admin"
-                            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-all group font-bold"
+                            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-amber-600 hover:bg-amber-50 transition-colors font-bold"
                             onClick={() => setProfileOpen(false)}
                           >
-                            <div className="w-8 h-8 rounded-lg bg-amber-50 group-hover:bg-amber-100 flex items-center justify-center transition-colors">
-                              <LayoutDashboard className="w-4 h-4 text-amber-600" />
-                            </div>
+                            <LayoutDashboard className="w-4 h-4" />
                             Admin Panel
                           </Link>
                         )}
                       </div>
 
-                      {/* Logout */}
-                      <div className="p-2 pt-0">
-                        <div className="border-t border-gray-100 mb-2" />
+                      <div className="px-1.5 pb-1.5">
+                        <div className="border-t border-gray-100 mb-1.5" />
                         <button
                           onClick={() => {
                             logout();
                             setProfileOpen(false);
                             window.location.href = "/";
                           }}
-                          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 transition-all group font-semibold"
+                          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-red-500 hover:bg-red-50 transition-colors font-medium"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-red-50 group-hover:bg-red-100 flex items-center justify-center transition-colors">
-                            <LogOut className="w-4 h-4 text-red-500" />
-                          </div>
+                          <LogOut className="w-4 h-4" />
                           {t("লগআউট", "Logout")}
                         </button>
                       </div>

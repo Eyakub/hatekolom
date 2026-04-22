@@ -10,10 +10,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Hate Kolom — Play, Learn, Grow",
+  title: "Hate Kolom — খেলো, শেখো, বড়ো হও",
   description:
-    "বাংলাদেশের শিশুদের জন্য আধুনিক শিক্ষা প্ল্যাটফর্ম। ঘরে বসে শিখুন অ্যাবাকাস, ম্যাথ, কোডিং ও আরও অনেক কিছু।",
-  keywords: ["education", "bangladesh", "kids", "online learning", "lms"],
+    "শিশুদের জন্য মজার স্টিকার বই, কালারিং বুক ও শিক্ষামূলক বই — সাথে অনলাইন এক্সাম। হাতে কলম দিয়ে শেখা শুরু হোক!",
+  keywords: ["hate kolom", "sticker book", "coloring book", "kids books", "online exam", "bangladesh", "educational materials"],
 };
 
 export default function RootLayout({
