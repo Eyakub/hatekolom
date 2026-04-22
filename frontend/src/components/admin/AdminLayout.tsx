@@ -5,7 +5,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   LayoutDashboard, Users, BookOpen, ShoppingBag, Truck,
-  Settings, ChevronRight, Loader2, Tag, GraduationCap, LogOut, Loader, Home, Shield, BarChart3, Gamepad2, Calculator, Award, Image as ImageIcon, Target
+  Settings, ChevronRight, Loader2, Tag, GraduationCap, LogOut, Loader, Home, Shield, BarChart3
 } from "lucide-react";
 import { useAuthStore } from "@/stores/auth-store";
 import { useLocaleStore } from "@/stores/locale-store";
@@ -22,12 +22,6 @@ const sidebarGroups = [
     items: [
       { id: "courses", bn: "কোর্স", en: "Courses", icon: BookOpen },
       { id: "exams", bn: "পরীক্ষা", en: "Exams", icon: GraduationCap },
-      { id: "games", bn: "গেমস", en: "Games", icon: Gamepad2 },
-      { id: "abacus", bn: "অ্যাবাকাস", en: "Abacus", icon: Calculator },
-      { id: "badges", bn: "ব্যাজ", en: "Badges", icon: Award },
-      { id: "gallery", bn: "গ্যালারি", en: "Gallery", icon: ImageIcon },
-      { id: "challenges", bn: "চ্যালেঞ্জ", en: "Challenges", icon: Target },
-      { id: "ebooks", bn: "ই-বুক", en: "Ebooks", icon: BookOpen },
       { id: "physical-items", bn: "শপ প্রোডাক্ট", en: "Shop Products", icon: ShoppingBag },
     ],
   },
