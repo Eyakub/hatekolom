@@ -37,8 +37,8 @@ const defaultSettings: SiteSettings = {
   youtube_url: "https://youtube.com",
   instagram_url: "https://instagram.com",
   linkedin_url: "https://linkedin.com",
-  footer_description_en: "A new era of joyful learning. Learn abacus, math, coding and more from home.",
-  footer_description_bn: "আনন্দের সাথে শেখার নতুন যুগ। ঘরে বসে শিখুন অ্যাবাকাস, ম্যাথ, কোডিং ও আরও অনেক কিছু।",
+  footer_description_en: "Fun sticker books, coloring books & educational materials for kids — with online exams. Let the learning begin with Hate Kolom!",
+  footer_description_bn: "শিশুদের জন্য মজার স্টিকার বই, কালারিং বুক ও শিক্ষামূলক বই — সাথে অনলাইন এক্সাম। হাতে কলম দিয়ে শেখা শুরু হোক!",
   feature_flags: { games: true, abacus: true, badges: true, gallery: true, challenges: true },
 };
 
