@@ -20,7 +20,6 @@ const sidebarGroups = [
   {
     bn: "কন্টেন্ট", en: "Content",
     items: [
-      { id: "courses", bn: "কোর্স", en: "Courses", icon: BookOpen },
       { id: "exams", bn: "পরীক্ষা", en: "Exams", icon: GraduationCap },
       { id: "physical-items", bn: "শপ প্রোডাক্ট", en: "Shop Products", icon: ShoppingBag },
     ],
