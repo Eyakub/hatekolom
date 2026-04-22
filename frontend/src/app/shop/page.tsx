@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
-  Package, Search, Loader2, ShoppingCart, Check, ArrowRight,
+  Package, Search, Loader2, ShoppingCart, Check, ArrowRight, ShoppingBag,
 } from "lucide-react";
+import { motion } from "motion/react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { api } from "@/lib/api";
@@ -106,24 +107,70 @@ export default function ShopPage() {
       <Navbar />
 
       {/* Hero */}
-      <div className="bg-gradient-to-br from-violet-700 via-purple-800 to-indigo-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold font-bn mb-3">
-            {t("🛍️ শপ", "🛍️ Shop")}
-          </h1>
-          <p className="text-white/70 font-bn text-lg mb-6">
-            {t("বই, স্টেশনারি ও শিক্ষা উপকরণ", "Books, Stationery & Learning Materials")}
-          </p>
-          <div className="max-w-md mx-auto relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder={t("প্রোডাক্ট খোঁজো...", "Search products...")}
-              className="w-full pl-12 pr-4 py-3 rounded-xl bg-white text-gray-900 text-sm outline-none shadow-lg font-bn"
-            />
+      <div className="relative bg-gradient-to-br from-[#0a1e36] via-[#1a3f6f] to-[#0d2d52] text-white py-16 md:py-20 overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-cyan-400/10 rounded-full blur-[80px] -translate-x-1/2 translate-y-1/2" />
+
+        {/* Floating icons */}
+        <motion.div
+          animate={{ y: [-8, 8, -8], rotate: [0, 5, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-12 right-[15%] hidden md:block"
+        >
+          <div className="w-14 h-14 rounded-2xl bg-white/[0.06] border border-white/[0.08] backdrop-blur-sm flex items-center justify-center">
+            <span className="text-2xl">📦</span>
           </div>
+        </motion.div>
+        <motion.div
+          animate={{ y: [6, -6, 6], rotate: [0, -5, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-16 left-[12%] hidden md:block"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/[0.08] backdrop-blur-sm flex items-center justify-center">
+            <span className="text-xl">🎨</span>
+          </div>
+        </motion.div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-4xl md:text-5xl font-extrabold font-bn tracking-tight mb-3"
+          >
+            {t("শপ", "Shop")}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-blue-200/60 font-bn text-lg max-w-md mx-auto mb-8"
+          >
+            {t("বই, স্টেশনারি ও শিক্ষা উপকরণ", "Books, Stationery & Learning Materials")}
+          </motion.p>
+
+          {/* Search */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="max-w-xl mx-auto"
+          >
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 via-cyan-400/20 to-blue-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-400" />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t("প্রোডাক্ট খোঁজো...", "Search products...")}
+                  className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/[0.08] border border-white/[0.12] backdrop-blur-md text-sm font-bn text-white placeholder:text-blue-200/40 focus:bg-white/[0.12] focus:border-blue-400/40 focus:shadow-[0_0_20px_rgba(59,130,246,0.15)] outline-none transition-all duration-300"
+                />
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -133,24 +180,39 @@ export default function ShopPage() {
           <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-2">
             <button
               onClick={() => setSelectedCategory(null)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors font-bn ${
+              className={`relative px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-300 font-bn flex items-center gap-2 ${
                 !selectedCategory
-                  ? "bg-primary-700 text-white"
-                  : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+                  ? "text-white shadow-lg shadow-blue-500/20"
+                  : "bg-white text-gray-500 border border-gray-200 hover:border-blue-200 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50"
               }`}
             >
+              {!selectedCategory && (
+                <motion.div
+                  layoutId="shop-cat-filter"
+                  className="absolute inset-0 bg-gradient-to-r from-[#1a3f6f] to-[#2563eb] rounded-xl -z-10"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <span className="text-base">📋</span>
               {t("সব", "All")}
             </button>
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id === selectedCategory ? null : cat.id)}
-                className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors font-bn ${
+                className={`relative px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-300 font-bn flex items-center gap-2 ${
                   selectedCategory === cat.id
-                    ? "bg-primary-700 text-white"
-                    : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+                    ? "text-white shadow-lg shadow-blue-500/20"
+                    : "bg-white text-gray-500 border border-gray-200 hover:border-blue-200 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50"
                 }`}
               >
+                {selectedCategory === cat.id && (
+                  <motion.div
+                    layoutId="shop-cat-filter"
+                    className="absolute inset-0 bg-gradient-to-r from-[#1a3f6f] to-[#2563eb] rounded-xl -z-10"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
                 {t(cat.name_bn || cat.name, cat.name)}
               </button>
             ))}

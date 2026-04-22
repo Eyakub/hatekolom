@@ -83,57 +83,101 @@ function ExamsContent() {
       <Navbar />
 
       {/* Hero */}
-      <div className="bg-gradient-hero py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-white font-bn">
+      <div className="relative bg-gradient-to-br from-[#0a1e36] via-[#1a3f6f] to-[#0d2d52] py-16 md:py-20 overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-cyan-400/10 rounded-full blur-[80px] -translate-x-1/2 translate-y-1/2" />
+        
+        {/* Floating icons */}
+        <motion.div
+          animate={{ y: [-8, 8, -8], rotate: [0, 5, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-12 right-[15%] hidden md:block"
+        >
+          <div className="w-14 h-14 rounded-2xl bg-white/[0.06] border border-white/[0.08] backdrop-blur-sm flex items-center justify-center">
+            <span className="text-2xl">📝</span>
+          </div>
+        </motion.div>
+        <motion.div
+          animate={{ y: [6, -6, 6], rotate: [0, -5, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-16 left-[12%] hidden md:block"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/[0.08] backdrop-blur-sm flex items-center justify-center">
+            <span className="text-xl">🏆</span>
+          </div>
+        </motion.div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-4xl md:text-5xl font-extrabold text-white font-bn tracking-tight"
+          >
             {t("পরীক্ষাসমূহ", "Exams")}
-          </h1>
-          <p className="text-white/70 font-bn mt-2">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-blue-200/60 font-bn mt-3 text-lg max-w-md mx-auto"
+          >
             {t(
               "তোমার দক্ষতা যাচাই করো আমাদের পরীক্ষায় অংশ নিয়ে",
               "Test your skills by participating in our exams"
             )}
-          </p>
+          </motion.p>
 
           {/* Search */}
-          <div className="max-w-xl mx-auto mt-6">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-400" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder={t("পরীক্ষা খুঁজুন...", "Search exams...")}
-                className="w-full pl-12 pr-4 py-4 rounded-full bg-white border-2 border-white/80 shadow-2xl text-sm font-bn text-gray-800 placeholder:text-gray-400 focus:ring-4 focus:ring-primary-200 focus:border-primary-300 outline-none"
-              />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="max-w-xl mx-auto mt-8"
+          >
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 via-cyan-400/20 to-blue-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-400" />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t("পরীক্ষা খুঁজুন...", "Search exams...")}
+                  className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/[0.08] border border-white/[0.12] backdrop-blur-md text-sm font-bn text-white placeholder:text-blue-200/40 focus:bg-white/[0.12] focus:border-blue-400/40 focus:shadow-[0_0_20px_rgba(59,130,246,0.15)] outline-none transition-all duration-300"
+                />
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Content */}
       <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         {/* Filter tabs */}
-        <div className="flex flex-wrap items-center gap-2 mb-6">
+        <div className="flex flex-wrap items-center gap-2 mb-8">
           {Object.entries(typeLabels).map(([key, label]) => {
             const isActive = typeFilter === key;
+            const icons: Record<string, string> = { "": "📋", anytime: "🌐", scheduled: "📅" };
             return (
               <button
                 key={key}
                 onClick={() => handleTypeChange(key)}
-                className={`relative px-5 py-2.5 rounded-xl text-sm font-bold transition-colors font-bn ${
+                className={`relative px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 font-bn flex items-center gap-2 ${
                   isActive
-                    ? "text-primary-800"
-                    : "text-gray-600 bg-white border border-gray-200 hover:bg-gray-50"
+                    ? "text-white shadow-lg shadow-blue-500/20"
+                    : "text-gray-500 bg-white border border-gray-200 hover:border-blue-200 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50"
                 }`}
               >
                 {isActive && (
                   <motion.div
                     layoutId="exam-type-filter"
-                    className="absolute inset-0 bg-primary-100 rounded-xl -z-10 shadow-sm border border-primary-200"
+                    className="absolute inset-0 bg-gradient-to-r from-[#1a3f6f] to-[#2563eb] rounded-xl -z-10"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
+                <span className="text-base">{icons[key]}</span>
                 {label}
               </button>
             );

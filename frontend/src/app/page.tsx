@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef, ReactNode } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   BookOpen,
   GraduationCap,
@@ -30,6 +30,10 @@ import {
   ShieldCheck,
   TrendingUp,
   Rocket,
+  ShoppingBag,
+  ShoppingCart,
+  Package,
+  Check,
   type LucideIcon,
 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
@@ -38,9 +42,28 @@ import { HappyBabyELibrary } from "@/components/home/HappyBabyELibrary";
 import { PlatformAchievements } from "@/components/home/PlatformAchievements";
 import { Footer } from "@/components/layout/Footer";
 import { useLocaleStore } from "@/stores/locale-store";
+import { useCartStore } from "@/stores/cart-store";
+import { toast } from "@/stores/toast-store";
 import { api } from "@/lib/api";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+
+interface ShopItem {
+  id: string;
+  title: string;
+  title_bn: string | null;
+  slug: string;
+  thumbnail_url: string | null;
+  price: number;
+  compare_price: number | null;
+  is_free: boolean;
+  is_active: boolean;
+  stock_quantity: number;
+  category_name: string | null;
+  category_name_bn: string | null;
+  images: { id: string; image_url: string; sort_order: number }[];
+  author: string | null;
+}
 
 interface Course {
   id: string;
@@ -150,14 +173,12 @@ const StepCard = ({
 
 export default function HomePage() {
   const { t: tRaw, locale } = useLocaleStore();
+  const { addItem } = useCartStore();
   const [courses, setCourses] = useState<Course[]>([]);
+  const [shopItems, setShopItems] = useState<ShopItem[]>([]);
+  const [shopLoading, setShopLoading] = useState(true);
+  const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end end"]
-  });
-  const pathLength = useTransform(scrollYProgress, [0, 0.8], [0, 1]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [loading, setLoading] = useState(true);
@@ -180,6 +201,44 @@ export default function HomePage() {
     };
     loadHomepage();
   }, []);
+
+  // Load shop items
+  useEffect(() => {
+    const loadShop = async () => {
+      setShopLoading(true);
+      try {
+        const data: any = await api.get("/physical-items/");
+        setShopItems(Array.isArray(data) ? data : []);
+      } catch { setShopItems([]); }
+      setShopLoading(false);
+    };
+    loadShop();
+  }, []);
+
+  const handleAddToCart = (e: React.MouseEvent, item: ShopItem) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({
+      productId: item.id,
+      productType: "physical_book",
+      title: item.title,
+      title_bn: item.title_bn,
+      thumbnail_url: item.images?.[0]?.image_url || item.thumbnail_url,
+      price: item.price,
+      compare_price: item.compare_price,
+      maxQuantity: item.stock_quantity,
+      slug: item.slug,
+    });
+    setAddedIds((prev) => new Set(prev).add(item.id));
+    toast.success(t("কার্টে যোগ হয়েছে", "Added to cart"));
+    setTimeout(() => {
+      setAddedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(item.id);
+        return next;
+      });
+    }, 1500);
+  };
 
   // Load categories
   useEffect(() => {
@@ -564,121 +623,157 @@ export default function HomePage() {
       </section>
 
       {/* ============================================
-          COURSES — Bento Grid with Filter Pills
+          SHOP — Product Grid
           ============================================ */}
       <section className="pt-8 md:pt-12 pb-16 md:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
           <div className="text-left mb-8 md:mb-10">
-            <h2 className="text-3xl md:text-5xl font-extrabold font-bn text-primary-900 mb-3 tracking-tight">
-              {t("আমাদের কোর্সসমূহ", "Our Courses")}
+            <h2 className="text-3xl md:text-5xl font-extrabold font-bn text-gray-900 mb-3 tracking-tight">
+              {t("আমাদের শপ", "Our Shop")}
             </h2>
-            <p className="text-gray-600 font-sans font-medium text-lg">
-              {t("আপনার পছন্দের বিষয় বেছে নিন", "Choose your favorite subject")}
+            <p className="text-gray-500 font-bn font-medium text-lg">
+              {t("স্টিকার বই, কালারিং বুক ও শিক্ষা উপকরণ", "Sticker books, coloring books & educational materials")}
             </p>
           </div>
 
-          {/* Dynamic Filter Pills */}
-          <div className="mb-10 flex justify-start">
-            <div className="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 inline-flex flex-wrap gap-2 md:gap-3 items-center overflow-x-auto" style={{ scrollbarWidth: "none" }}>
-              <button
-                onClick={() => setActiveCategory("")}
-                className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-sm transition-all whitespace-nowrap font-bn ${activeCategory === ""
-                    ? "bg-primary-700 text-white shadow-md"
-                    : "text-gray-600 hover:bg-white/80"
-                  }`}
-              >
-                <LayoutGrid className="w-4 h-4" />
-                {t("সকল কোর্স", "All Courses")}
-              </button>
-              {categories.map((cat) => {
-                const IconComp = getCategoryIcon(cat.slug, cat.name);
+          {/* Product Grid */}
+          {shopLoading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="rounded-2xl overflow-hidden">
+                  <div className="skeleton aspect-square" />
+                  <div className="p-4 space-y-3 bg-white border border-gray-100 rounded-b-2xl">
+                    <div className="skeleton h-4 w-3/4" />
+                    <div className="skeleton h-3 w-1/2" />
+                    <div className="skeleton h-10 w-full rounded-full" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : shopItems.length === 0 ? (
+            <div className="text-center py-20">
+              <Package className="w-16 h-16 text-gray-200 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-400 font-bn">
+                {t("এখনো কোনো প্রোডাক্ট নেই", "No products yet")}
+              </h3>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+              {shopItems.map((item) => {
+                const imageUrl = item.images?.[0]?.image_url || item.thumbnail_url;
+                const isAdded = addedIds.has(item.id);
+                const outOfStock = item.stock_quantity <= 0;
+
                 return (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveCategory(activeCategory === String(cat.id) ? "" : String(cat.id))}
-                    className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap font-bn ${activeCategory === String(cat.id)
-                        ? "bg-primary-700 text-white shadow-md"
-                        : "text-gray-600 hover:bg-white/80"
-                      }`}
+                  <Link
+                    key={item.id}
+                    href={`/shop/${item.slug}`}
+                    className="group flex flex-col cursor-pointer outline-none"
                   >
-                    <IconComp className="w-4 h-4" />
-                    {cat.name_bn || cat.name}
-                  </button>
+                    <div className="flex flex-col h-full bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+                      {/* Image */}
+                      <div className="relative aspect-square overflow-hidden flex-shrink-0">
+                        {imageUrl ? (
+                          <img
+                            src={imageUrl}
+                            alt={item.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-blue-100 to-cyan-200 flex items-center justify-center">
+                            <Package className="w-16 h-16 text-blue-300" />
+                          </div>
+                        )}
+                        {item.is_free && (
+                          <span className="absolute top-2.5 left-2.5 bg-emerald-500 text-white text-[9px] sm:text-[10px] font-bold uppercase px-2 py-0.5 rounded-md shadow-lg">
+                            Free
+                          </span>
+                        )}
+                        {item.compare_price && item.compare_price > item.price && (
+                          <span className="absolute top-2.5 right-2.5 bg-red-500 text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md shadow-lg">
+                            {Math.round((1 - item.price / item.compare_price) * 100)}% OFF
+                          </span>
+                        )}
+                        {outOfStock && (
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <span className="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full font-bn">
+                              {t("স্টক আউট", "Out of Stock")}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-3 sm:p-4 flex flex-col flex-grow">
+                        <div className="flex items-start gap-1.5 mb-1.5">
+                          <h3 className="font-bold text-sm sm:text-base text-gray-900 line-clamp-2 leading-snug flex-1 font-bn group-hover:text-blue-700 transition-colors">
+                            {t(item.title_bn || item.title, item.title)}
+                          </h3>
+                          <span className={`text-[10px] sm:text-xs font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap flex-shrink-0 ${
+                            item.is_free ? "bg-emerald-50 text-emerald-600" : "bg-blue-50 text-blue-700"
+                          }`}>
+                            {item.is_free ? t("ফ্রি", "Free") : `৳${item.price}`}
+                          </span>
+                        </div>
+
+                        {item.author && (
+                          <span className="text-[11px] text-gray-500 font-bn mb-1.5 line-clamp-1">
+                            {item.author}
+                          </span>
+                        )}
+
+                        {item.stock_quantity > 0 && item.stock_quantity <= 5 && (
+                          <span className="text-[10px] text-amber-600 font-semibold font-bn mb-2">
+                            {t(`মাত্র ${item.stock_quantity}টি বাকি`, `Only ${item.stock_quantity} left`)}
+                          </span>
+                        )}
+
+                        <div className="mt-auto pt-2">
+                          {outOfStock ? (
+                            <span className="flex items-center justify-center gap-1.5 bg-gray-200 text-gray-500 px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold w-full font-bn cursor-not-allowed">
+                              {t("স্টক আউট", "Out of Stock")}
+                            </span>
+                          ) : (
+                            <button
+                              onClick={(e) => handleAddToCart(e, item)}
+                              className={`flex items-center justify-center gap-1.5 px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold w-full transition-all font-bn ${
+                                isAdded
+                                  ? "bg-emerald-500 text-white"
+                                  : "bg-gradient-to-r from-[#1a3f6f] to-[#2563eb] text-white hover:shadow-lg hover:shadow-blue-500/20"
+                              }`}
+                            >
+                              {isAdded ? (
+                                <>
+                                  <Check className="w-3.5 h-3.5" />
+                                  {t("যোগ হয়েছে", "Added")}
+                                </>
+                              ) : (
+                                <>
+                                  <ShoppingCart className="w-3.5 h-3.5" />
+                                  {t("কার্টে যোগ করুন", "Add to Cart")}
+                                </>
+                              )}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
                 );
               })}
             </div>
-          </div>
-
-          {/* Courses Bento Grid */}
-          {loading ? (
-            <>
-              {/* Desktop Loaders */}
-              <div className="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 -mx-4 md:mx-0">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div key={i} className={`rounded-2xl overflow-hidden ${i === 1 ? "md:col-span-2 md:row-span-1" : ""}`}>
-                    <div className={`skeleton ${i === 1 ? "h-64 md:h-80" : "h-48"}`} />
-                    <div className="p-5 space-y-3 bg-white border border-gray-100 rounded-b-2xl">
-                      <div className="skeleton h-4 w-3/4" />
-                      <div className="skeleton h-3 w-1/2" />
-                      <div className="skeleton h-8 w-24" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {/* Mobile Loaders */}
-              <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-[12.5vw]" style={{ scrollbarWidth: "none" }}>
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="rounded-2xl overflow-hidden shrink-0 snap-center w-[75vw]">
-                    <div className="skeleton h-48" />
-                    <div className="p-5 space-y-3 bg-white border border-gray-100 rounded-b-2xl">
-                      <div className="skeleton h-4 w-3/4" />
-                      <div className="skeleton h-3 w-1/2" />
-                      <div className="skeleton h-8 w-24" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : courses.length === 0 ? (
-            <div className="text-center py-20">
-              <BookOpen className="w-16 h-16 text-gray-200 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-400 font-bn">
-                {t("কোনো কোর্স পাওয়া যায়নি", "No courses found")}
-              </h3>
-              <p className="text-sm text-gray-400 font-bn mt-1">
-                {t("অন্য ক্যাটেগরি দেখুন", "Try another category")}
-              </p>
-            </div>
-          ) : (
-            <>
-              {/* Desktop Bento Grid */}
-              <div className="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 stagger-children">
-                {courses.map((course, index) => renderCourseCard(course, index, false))}
-              </div>
-
-              {/* Mobile Infinite Auto-Scrolling Carousel */}
-              <div className="md:hidden overflow-hidden -mx-4 py-4 cursor-grab active:cursor-grabbing" ref={emblaRef}>
-                <div className="flex touch-pan-y">
-                  {courses.map((course, index) => (
-                    <div key={course.id} className="flex-[0_0_75%] min-w-0 pl-4 relative h-auto">
-                      {renderCourseCard(course, index, true)}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </>
           )}
 
           {/* View All Link */}
-          {courses.length > 0 && (
+          {shopItems.length > 0 && (
             <div className="text-center mt-10">
-              <Link href="/courses">
-                <motion.button 
-                  className="group bg-primary-600 text-white font-extrabold font-bn px-10 py-4 rounded-full text-xl shadow-[0_8px_0_#4c1d95] hover:shadow-[0_4px_0_#4c1d95] hover:translate-y-1 active:shadow-none active:translate-y-2 transition-all inline-flex items-center gap-3 mx-auto border-2 border-primary-800"
+              <Link href="/shop">
+                <motion.button
+                  className="group bg-gradient-to-r from-[#1a3f6f] to-[#2563eb] text-white font-extrabold font-bn px-10 py-4 rounded-full text-xl shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all inline-flex items-center gap-3 mx-auto"
                   whileHover={{ scale: 1.02 }}
                 >
-                  {t("সকল কোর্স দেখুন", "View All Courses")}
+                  {t("সব প্রোডাক্ট দেখুন", "View All Products")}
                   <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
                 </motion.button>
               </Link>
@@ -692,138 +787,7 @@ export default function HomePage() {
           ============================================ */}
       <HappyBabyELibrary />
 
-      {/* ============================================
-          HOW IT WORKS (The Journey Path Section)
-          ============================================ */}
-      <section ref={containerRef} className="py-20 md:py-32 relative bg-primary-50/40 overflow-hidden">
-        {/* Section Header */}
-        <div className="text-center mb-16 relative z-10">
-          <RevealOnScroll>
-            <h2 className="text-4xl md:text-5xl font-extrabold font-bn text-primary-900 mb-4">
-              {t("কীভাবে শুরু করবো?", "How to Get Started?")}
-            </h2>
-            <p className="text-gray-500 font-bn text-lg">{t("৬টি সহজ ও মজার ধাপে", "In 6 easy & fun steps")}</p>
-          </RevealOnScroll>
-        </div>
 
-        <div className="max-w-6xl mx-auto px-6 relative">
-          {/* SVG Path Connection for Desktop */}
-          <div className="hidden lg:block absolute inset-0 z-0 pointer-events-none opacity-50">
-            <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 600">
-              <path 
-                className="stroke-primary-300/40 fill-none stroke-[6]" 
-                d="M200,116 L600,116 L1000,116 C1120,116 1120,484 1000,484 L600,484 L200,484" 
-                strokeDasharray="12 12" 
-                strokeLinecap="round"
-              />
-              <motion.path 
-                style={{ pathLength }}
-                className="stroke-primary-600 fill-none stroke-[6]" 
-                d="M200,116 L600,116 L1000,116 C1120,116 1120,484 1000,484 L600,484 L200,484" 
-                strokeLinecap="round"
-              />
-              <motion.circle 
-                fill="#7c3aed" 
-                r="10" 
-                style={{ offsetPath: "path('M200,116 L600,116 L1000,116 C1120,116 1120,484 1000,484 L600,484 L200,484')", offsetDistance: pathLength }}
-                className="shadow-xl"
-              />
-            </svg>
-          </div>
-
-          {/* SVG Path Connection for Mobile */}
-          <div className="block lg:hidden absolute inset-0 z-0 pointer-events-none opacity-40">
-            <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 1400">
-              <path 
-                className="stroke-primary-300/40 fill-none stroke-[12]" 
-                d="M250,200 L750,200 C870,200 870,700 750,700 L250,700 C130,700 130,1200 250,1200 L750,1200" 
-                strokeDasharray="24 24" 
-                strokeLinecap="round"
-              />
-              <motion.path 
-                style={{ pathLength }}
-                className="stroke-primary-600 fill-none stroke-[12]" 
-                d="M250,200 L750,200 C870,200 870,700 750,700 L250,700 C130,700 130,1200 250,1200 L750,1200" 
-                strokeLinecap="round"
-              />
-              <motion.circle 
-                fill="#7c3aed" 
-                r="16" 
-                style={{ offsetPath: "path('M250,200 L750,200 C870,200 870,700 750,700 L250,700 C130,700 130,1200 250,1200 L750,1200')", offsetDistance: pathLength }}
-                className="shadow-xl"
-              />
-            </svg>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-y-10 lg:gap-y-32 gap-x-4 items-center justify-items-center relative z-10 px-0">
-            <StepCard 
-              number={t("১", "1")}
-              icon={Users}
-              title={t("রেজিস্ট্রেশন", "Registration")}
-              description={t("ফোন নম্বর দিয়ে একাউন্ট খুলুন", "Create your account easily")}
-              bgColor="bg-blue-100/80"
-              textColor="text-blue-900"
-              accentColor="bg-blue-600"
-              wrapperClass="order-1"
-            />
-            <StepCard 
-              number={t("২", "2")}
-              icon={BookOpen}
-              title={t("কোর্স বাছাই", "Choose Course")}
-              description={t("পছন্দের কোর্স বেছে নিন", "Pick the course you like")}
-              bgColor="bg-amber-100/90"
-              textColor="text-amber-900"
-              accentColor="bg-amber-500"
-              delay={0.15}
-              wrapperClass="order-2"
-            />
-            <StepCard 
-              number={t("৩", "3")}
-              icon={Star}
-              title={t("ভর্তি হোন", "Enroll")}
-              description={t("পেমেন্ট করে ভর্তি নিশ্চিত করুন", "Complete payment & confirm")}
-              bgColor="bg-emerald-100/80"
-              textColor="text-emerald-900"
-              accentColor="bg-emerald-500"
-              delay={0.3}
-              wrapperClass="order-4 lg:order-3"
-            />
-            <StepCard 
-              number={t("৪", "4")}
-              icon={Play}
-              title={t("শেখা শুরু করুন", "Start Learning")}
-              description={t("ভিডিও দেখুন এবং অধ্যায় শেষ করুন", "Learn from videos to progress")}
-              bgColor="bg-purple-100/80"
-              textColor="text-purple-900"
-              accentColor="bg-purple-600"
-              delay={0.15}
-              wrapperClass="order-3 lg:order-6"
-            />
-            <StepCard 
-              number={t("৫", "5")}
-              icon={Puzzle}
-              title={t("কুইজ ও ধাঁধা", "Quiz Checks")}
-              description={t("জ্ঞান যাচাই করতে মজার কুইজ দিন", "Test skills with playful quizzes")}
-              bgColor="bg-teal-100/80"
-              textColor="text-teal-900"
-              accentColor="bg-teal-500"
-              delay={0.3}
-              wrapperClass="order-5 lg:order-5"
-            />
-            <StepCard 
-              number={t("৬", "6")}
-              icon={Award}
-              title={t("সার্টিফিকেট", "Mastery")}
-              description={t("কোর্স শেষে নিজের অর্জন বুঝে নিন", "Earn your certificate & celebrate")}
-              bgColor="bg-pink-100/80"
-              textColor="text-pink-900"
-              accentColor="bg-pink-500"
-              delay={0.45}
-              wrapperClass="order-6 lg:order-4"
-            />
-          </div>
-        </div>
-      </section>
 
       {/* ============================================
           WHY GUARDIANS TRUST US (Parent Trust Section)
