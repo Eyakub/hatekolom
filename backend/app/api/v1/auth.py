@@ -73,8 +73,8 @@ async def register(data: RegisterRequest, db: AsyncSession = Depends(get_db)):
     # Auto-create a default child profile
     default_child = ChildProfile(
         parent_id=user.id,
-        full_name=data.full_name or "My Child",
-        full_name_bn=data.full_name_bn,
+        full_name="My Child",
+        full_name_bn="আমার সন্তান",
     )
     db.add(default_child)
     await db.commit()

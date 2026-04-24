@@ -361,7 +361,21 @@ function CheckoutContent() {
     { id: "card", flag: "payment_card", label: "Card/Bank", icon: Landmark, bg: "bg-gradient-to-br from-slate-600 to-slate-700", ring: "ring-slate-400" },
     { id: "mock_success", flag: "payment_demo", label: "Demo", icon: Monitor, bg: "bg-gradient-to-br from-violet-500 to-violet-600", ring: "ring-violet-400" },
   ];
-  const paymentMethods = allPaymentMethods.filter((m) => flags[m.flag] !== false);
+  const paymentMethods = allPaymentMethods.filter((m) => {
+    if (flags[m.flag] === false) return false;
+    // No COD for exam purchases (digital product)
+    if (m.id === "cod") {
+      if (!isCartCheckout && productType === "exam") return false;
+      if (isCartCheckout && cartStore.items.some((i) => i.productType === "exam") && !cartHasPhysical) return false;
+    }
+    return true;
+  });
+
+  // Auto-select first available payment if current selection was filtered out (e.g. COD for exams)
+  if (paymentMethods.length > 0 && !paymentMethods.find((m) => m.id === paymentMethod)) {
+    // Use setTimeout to avoid setting state during render
+    setTimeout(() => setPaymentMethod(paymentMethods[0].id), 0);
+  }
 
   const backHref = isCartCheckout ? "/shop" : productType === "ebook" ? "/ebooks" : productType === "exam" ? "/exams" : "/shop";
 
