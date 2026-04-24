@@ -163,7 +163,7 @@ export default function ProductDetailPage() {
     // Auto-add attached exams as bundled items
     attachedExams.forEach((exam) => {
       addItem({
-        productId: exam.product_id,
+        productId: exam.exam_id,
         productType: "exam",
         title: exam.title,
         title_bn: exam.title_bn,
