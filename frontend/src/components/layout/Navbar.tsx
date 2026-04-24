@@ -14,7 +14,7 @@ import { CartDrawer } from "@/components/shop/CartDrawer";
 
 export function Navbar() {
   return (
-    <Suspense fallback={<div className="h-[72px] w-full bg-[#1a3a5c]" />}>
+    <Suspense fallback={<div className="h-[80px] w-full bg-[#1a3a5c]" />}>
       <NavbarContent />
     </Suspense>
   );
@@ -67,7 +67,7 @@ function NavbarContent() {
     <>
       <nav className="sticky top-0 z-50 bg-gradient-to-r from-[#0f2b4a] via-[#1a3f6f] to-[#0f2b4a] shadow-lg shadow-blue-900/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 h-16 relative">
+          <div className="flex items-center gap-4 h-20 relative">
           {/* Mobile expanded search overlay */}
           {mobileSearchOpen && (
             <div className="md:hidden absolute inset-0 z-30 flex items-center px-3 bg-[#1a3f6f]/95 backdrop-blur-xl animate-in fade-in slide-in-from-right-4 duration-200">
@@ -105,7 +105,7 @@ function NavbarContent() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-            <img src="/logo_white.png" alt={settings.platform_name} className="h-9 w-auto object-contain" />
+            <img src="/logo_white.png" alt={settings.platform_name} className="h-12 w-auto object-contain" />
           </Link>
 
           {/* Desktop Nav Links */}
@@ -331,7 +331,7 @@ function NavbarContent() {
           {/* Slide-in drawer from right */}
           <div className="md:hidden fixed top-0 right-0 z-50 h-full w-[280px] max-w-[85vw] bg-gradient-to-b from-[#0f2b4a] to-[#1a3f6f] shadow-2xl animate-in slide-in-from-right duration-300">
             {/* Drawer header */}
-            <div className="flex items-center justify-between px-5 h-16 border-b border-white/10">
+            <div className="flex items-center justify-between px-5 h-20 border-b border-white/10">
               <span className="text-lg font-bold font-[family-name:var(--font-display)] text-white">
                 {settings.platform_name}
               </span>
@@ -344,7 +344,7 @@ function NavbarContent() {
             </div>
 
             {/* Drawer content */}
-            <div className="px-4 py-5 space-y-1 overflow-y-auto h-[calc(100%-64px)]">
+            <div className="px-4 py-5 space-y-1 overflow-y-auto h-[calc(100%-80px)]">
               {/* Search */}
               <div className="pb-3 mb-2 border-b border-white/10">
                 <SearchBar />
