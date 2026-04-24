@@ -11,7 +11,7 @@ from app.core.security import (
     hash_password, verify_password,
     create_access_token, create_refresh_token, decode_token,
 )
-from app.models import User, Role, RoleType, OTPVerification
+from app.models import User, Role, RoleType, OTPVerification, ChildProfile
 from app.schemas import (
     RegisterRequest, LoginRequest, TokenResponse,
     RefreshTokenRequest, UserResponse, MessageResponse,
@@ -68,6 +68,15 @@ async def register(data: RegisterRequest, db: AsyncSession = Depends(get_db)):
         from app.models import UserRole
         db.add(UserRole(user_id=user.id, role_id=role.id))
 
+    await db.commit()
+
+    # Auto-create a default child profile
+    default_child = ChildProfile(
+        parent_id=user.id,
+        full_name=data.full_name or "My Child",
+        full_name_bn=data.full_name_bn,
+    )
+    db.add(default_child)
     await db.commit()
 
     # Reload user with roles eagerly loaded

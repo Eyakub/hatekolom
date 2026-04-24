@@ -1,22 +1,24 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Phone, Lock, User, Eye, EyeOff, ArrowRight, Loader2, ShieldCheck, Rocket, BookOpen, Sparkles, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAuthStore } from "@/stores/auth-store";
 import { api, ApiError } from "@/lib/api";
 import { Navbar } from "@/components/layout/Navbar";
 
-export default function RegisterPage() {
+function RegisterContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams?.get("redirect");
   const { setAuth, isAuthenticated } = useAuthStore();
 
   // Redirect logged-in users away from register page
   useEffect(() => {
-    if (isAuthenticated) router.replace("/dashboard");
-  }, [isAuthenticated, router]);
+    if (isAuthenticated) router.replace(redirectTo || "/dashboard");
+  }, [isAuthenticated, router, redirectTo]);
   const [formData, setFormData] = useState({
     full_name: "",
     phone: "",
@@ -71,10 +73,10 @@ export default function RegisterPage() {
         password: formData.password,
       });
 
-      // Store auth and redirect to dashboard (OTP paused for now)
+      // Store auth and redirect (use redirect param if available)
       setAuth(res.user, res.access_token, res.refresh_token);
       // Use replace so back button doesn't return to register
-      router.replace("/dashboard");
+      router.replace(redirectTo || "/dashboard");
     } catch (err) {
       if (err instanceof ApiError) {
         setError(
@@ -126,7 +128,7 @@ export default function RegisterPage() {
     setOtpError("");
     try {
       await api.post("/auth/verify-otp", { phone: registeredPhone, code }, registeredToken);
-      router.push("/dashboard");
+      router.push(redirectTo || "/dashboard");
     } catch (err: any) {
       setOtpError(err?.message || "ভুল কোড। আবার চেষ্টা করুন।");
       setOtpDigits(["", "", "", "", "", ""]);
@@ -152,7 +154,7 @@ export default function RegisterPage() {
     }
   };
 
-  const skipOTP = () => router.push("/dashboard");
+  const skipOTP = () => router.push(redirectTo || "/dashboard");
 
   const benefits = [
     "বিনামূল্যে একাউন্ট খুলুন",
@@ -449,12 +451,20 @@ export default function RegisterPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-400 font-bn">
               ইতোমধ্যে অ্যাকাউন্ট আছে?{" "}
-              <Link href="/login" className="font-bold text-primary-700 hover:underline">লগইন করুন</Link>
+              <Link href={redirectTo ? `/login?redirect=${encodeURIComponent(redirectTo)}` : "/login"} className="font-bold text-primary-700 hover:underline">লগইন করুন</Link>
             </p>
           </div>
         </motion.div>
       </div>
     </div>
     </>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary-500" /></div>}>
+      <RegisterContent />
+    </Suspense>
   );
 }

@@ -66,7 +66,7 @@ export default function DashboardPage() {
   // ALL purchased courses (for "add to another child" feature)
   const [allPurchasedCourses, setAllPurchasedCourses] = useState<any[]>([]);
 
-  const MAX_CHILDREN = 2;
+  const MAX_CHILDREN = 1;
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -179,7 +179,7 @@ export default function DashboardPage() {
       const msg = err?.message || "";
       if (msg.includes("Maximum")) {
         import("@/stores/toast-store").then((m) =>
-          m.toast.error(t("সর্বোচ্চ ২টি সন্তানের প্রোফাইল তৈরি করা যাবে", "Maximum 2 child profiles allowed"))
+          m.toast.error(t("সর্বোচ্চ ১টি সন্তানের প্রোফাইল তৈরি করা যাবে", "Maximum 1 child profile allowed"))
         );
       }
     }
@@ -435,53 +435,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Unassigned Purchases Banner */}
-      {unassignedPurchases.length > 0 && children.length > 0 && (
-        <div className="mb-6 bg-amber-50 border border-amber-200 rounded-2xl overflow-hidden">
-          <div className="flex items-center gap-3 px-5 py-4 border-b border-amber-200/70">
-            <div className="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
-              <BookOpen className="w-4 h-4 text-amber-700" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold text-amber-900 font-bn">
-                {t(
-                  `${unassignedPurchases.length}টি ক্রয়কৃত কোর্স কোনো সন্তানের সাথে যুক্ত নেই`,
-                  `${unassignedPurchases.length} purchased course${unassignedPurchases.length > 1 ? 's' : ''} not assigned to any child`
-                )}
-              </p>
-              <p className="text-xs text-amber-700 mt-0.5 font-bn">
-                {t("নিচের বাটনে ক্লিক করে সন্তানের সাথে যুক্ত করুন", "Click below to assign them to a child profile")}
-              </p>
-            </div>
-          </div>
 
-          {/* Unassigned course chips */}
-          <div className="px-5 py-3 flex flex-wrap gap-2">
-            {unassignedPurchases.map((ent: any) => (
-              <div key={ent.id} className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-amber-200 rounded-full">
-                <BookMarked className="w-3 h-3 text-amber-600" />
-                <span className="text-xs font-semibold text-amber-900 font-bn max-w-[180px] truncate">
-                  {ent.product_title}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Assign buttons — one per child */}
-          <div className="px-5 pb-4 flex flex-wrap gap-2">
-            {children.map((child) => (
-              <button
-                key={child.id}
-                onClick={() => openAssignModal(child)}
-                className="flex items-center gap-2 px-4 py-2 bg-amber-700 text-white text-xs font-bold rounded-xl hover:bg-amber-800 transition-all"
-              >
-                <UserPlus className="w-3.5 h-3.5" />
-                {t(`${child.full_name_bn || child.full_name}-এ যোগ করো`, `Assign to ${child.full_name}`)}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Welcome & Child Switcher */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
@@ -522,20 +476,9 @@ export default function DashboardPage() {
               <Plus className="w-4 h-4 font-bold" />
             </button>
           )}
-          {/* Manage courses button — opens assignment modal for active child */}
-          {activeChild && unassignedPurchases.length > 0 && (
-            <button
-              onClick={() => openAssignModal(activeChild)}
-              className="ml-1 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-bold hover:bg-amber-200 transition-colors"
-              title={t("অ্যাসাইন করা হয়নি এমন কোর্স যোগ করুন", "Assign unassigned courses")}
-            >
-              <BookOpen className="w-3 h-3" />
-              {unassignedPurchases.length}
-            </button>
-          )}
-          {children.length >= MAX_CHILDREN && unassignedPurchases.length === 0 && (
+          {children.length >= MAX_CHILDREN && (
             <span className="ml-2 px-2 py-1 text-[10px] font-bold text-gray-400 bg-gray-50 rounded-full">
-              {t("সর্বোচ্চ ২", "Max 2")}
+              {t("সর্বোচ্চ ১", "Max 1")}
             </span>
           )}
         </div>
@@ -556,14 +499,14 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Grid Layout containing Main Left (Stats + Courses) and Right Sidebar */}
+      {/* Grid Layout containing Main Left (Stats + Exams) and Right Sidebar */}
       {activeChild ? (
         <div className="grid lg:grid-cols-12 gap-8">
           
           {/* Main Content Area (Left 8 cols) */}
           <div className="lg:col-span-8 flex flex-col gap-6">
             
-            {/* Massive Stats Banner */}
+            {/* Stats Banner */}
             <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-50 p-6 flex flex-col md:flex-row items-center gap-6 relative overflow-hidden">
               <div className="absolute right-0 top-0 w-48 h-48 bg-primary-50 rounded-full blur-3xl -mr-24 -mt-24 opacity-50" />
               
@@ -579,84 +522,15 @@ export default function DashboardPage() {
 
               <div className="flex-1 flex flex-row items-center justify-around w-full relative z-10 gap-4">
                 <div className="text-center">
-                  <h3 className="text-gray-500 font-bold text-sm mb-1">{t("অ্যাক্টিভ কোর্স", "Active Courses")}</h3>
-                  <p className="text-4xl font-black text-primary-800">{activeCoursesCount}</p>
+                  <h3 className="text-gray-500 font-bold text-sm mb-1">{t("মোট পরীক্ষা", "Total Exams")}</h3>
+                  <p className="text-4xl font-black text-primary-800">{exams.length}</p>
                 </div>
                 
-                <div className="text-center w-40">
-                  <h3 className="text-gray-500 font-bold text-sm mb-1">{t("পড়াশোনার উন্নতি", "Overall Progress")}</h3>
-                  <div className="flex items-end justify-center gap-2 mb-2">
-                    <p className="text-4xl font-black text-primary-800">{overallProgress}%</p>
-                  </div>
-                  <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-primary-800 rounded-full" style={{ width: `${overallProgress}%` }} />
-                  </div>
+                <div className="text-center">
+                  <h3 className="text-gray-500 font-bold text-sm mb-1">{t("সন্তানের নাম", "Child Name")}</h3>
+                  <p className="text-lg font-black text-primary-800 font-bn">{activeChild.full_name_bn || activeChild.full_name}</p>
                 </div>
               </div>
-            </div>
-
-            {/* Courses Section Header */}
-            <div className="flex items-center justify-between mb-1">
-              <h2 className="text-lg font-extrabold text-gray-900">
-                {t("কোর্স সমূহ", "Courses")}
-              </h2>
-              {activeChild && allPurchasedCourses.length > 0 && (
-                <button
-                  onClick={() => openAssignModalAll(activeChild)}
-                  className="flex items-center gap-1.5 px-3.5 py-2 bg-primary-50 text-primary-700 text-xs font-bold rounded-xl hover:bg-primary-100 transition-colors"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  {t("কোর্স যোগ করুন", "Add Course")}
-                </button>
-              )}
-            </div>
-
-            {/* Courses Grid */}
-            <div className="grid md:grid-cols-2 gap-5">
-              {enrollments.length === 0 ? (
-                <div className="md:col-span-2 bg-white rounded-3xl p-8 text-center shadow-sm border border-gray-50">
-                  <BookOpen className="w-12 h-12 text-gray-200 mx-auto mb-3" />
-                  <h3 className="text-lg font-bold text-gray-400">{t("এখনো কোনো কোর্সে ভর্তি হয়নি", "No active courses yet")}</h3>
-                  <Link href="/courses" className="mt-4 inline-flex items-center py-2.5 px-6 bg-primary-700 text-white font-bold rounded-xl text-sm hover:bg-primary-800 shadow-md">
-                    {t("কোর্স দেখুন", "Explore Courses")}
-                  </Link>
-                </div>
-              ) : (
-                enrollments.map((e) => {
-                  const isCompleted = e.progress_pct === 100;
-                  return (
-                    <Link key={e.enrollment_id} href={`/learn/${e.course_id}?child=${activeChild.id}`} className="group bg-white rounded-2xl border border-gray-50 overflow-hidden shadow-[0_2px_12px_rgb(0,0,0,0.02)] hover:shadow-[0_4px_20px_rgb(0,0,0,0.06)] transition-all flex flex-col p-3 pb-4">
-                      <div className="relative h-36 rounded-xl overflow-hidden mb-3 bg-gray-100 flex items-center justify-center">
-                        {e.course_thumbnail ? (
-                          <img src={e.course_thumbnail} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        ) : (
-                          <Play className="w-10 h-10 text-gray-300" />
-                        )}
-                        <div className="absolute top-2 left-2 px-2.5 py-0.5 bg-white/90 backdrop-blur-sm shadow-sm rounded-full text-[9px] font-black tracking-widest uppercase text-primary-900 border border-white/20">
-                          {e.course_type}
-                        </div>
-                      </div>
-                      <div className="px-2 flex-1 flex flex-col">
-                        <h3 className="font-bold text-gray-900 text-[15px] line-clamp-2 leading-snug mb-auto group-hover:text-primary-700 transition-colors">
-                          {locale === "bn" && e.course_title_bn ? e.course_title_bn : e.course_title}
-                        </h3>
-
-                        <div className="mt-4">
-                          <div className="flex justify-between items-center mb-1.5">
-                            <span className="text-[11px] font-bold text-gray-500">Progress</span>
-                            <span className={`text-[11px] font-black ${isCompleted ? 'text-green-600' : 'text-primary-700'}`}>
-                              {isCompleted ? t('সম্পন্ন', 'Completed') : `${e.progress_pct}%`}
-                            </span>
-                          </div>
-                          <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                            <div className={`h-full rounded-full ${isCompleted ? 'bg-green-500' : 'bg-primary-800'}`} style={{ width: `${e.progress_pct}%` }} />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })
-              )}
             </div>
 
             {/* Exams Section Header */}

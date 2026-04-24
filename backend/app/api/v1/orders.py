@@ -229,6 +229,13 @@ async def create_order(
     5. Process payment (mock for Phase 1)
     6. If payment succeeds → entitlements auto-granted
     """
+    # Block admin users from placing orders
+    user_role_names = {r.name.value if hasattr(r.name, "value") else r.name for r in (user.roles or [])}
+    if user_role_names.intersection({"super_admin", "admin"}):
+        raise HTTPException(
+            status_code=403,
+            detail="Admin accounts cannot place orders. Use a regular user account."
+        )
     # Resolve child IDs: support both single and multi-child
     all_child_ids = []
     if data.child_profile_ids and len(data.child_profile_ids) > 0:

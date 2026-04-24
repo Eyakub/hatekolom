@@ -236,6 +236,37 @@ function CheckoutContent() {
     );
   }
 
+  // ─── BLOCK ADMIN USERS ──────────────────────────────
+  const isAdmin = isAuthenticated && user?.roles?.some((r: string) => ["super_admin", "admin"].includes(r));
+  if (isAdmin) {
+    return (
+      <div className="min-h-screen flex flex-col bg-gray-50/50">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center p-4">
+          <div className="max-w-md w-full text-center">
+            <div className="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-5">
+              <Shield className="w-10 h-10 text-red-500" />
+            </div>
+            <h1 className="text-xl font-bold text-gray-900 font-bn mb-2">
+              {t("অ্যাডমিন অ্যাকাউন্ট দিয়ে অর্ডার করা যাবে না", "Admin accounts cannot place orders")}
+            </h1>
+            <p className="text-sm text-gray-500 font-bn mb-6">
+              {t("অর্ডার করতে একটি সাধারণ ইউজার অ্যাকাউন্ট ব্যবহার করুন। অ্যাডমিন প্যানেলে ফিরে যেতে নিচে ক্লিক করুন।", "Please use a regular user account to place orders. Click below to go back to the admin panel.")}
+            </p>
+            <div className="flex flex-col gap-3">
+              <Link href="/admin" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-700 text-white font-bold rounded-xl hover:bg-primary-800 transition-all font-bn shadow-md">
+                {t("অ্যাডমিন প্যানেলে যান", "Go to Admin Panel")}
+              </Link>
+              <Link href="/shop" className="text-sm text-primary-700 font-semibold hover:underline font-bn">
+                {t("শপে ফিরে যান", "Back to Shop")}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // ─── SUCCESS STATE ──────────────────────────────
   if (success && orderResult) {
     return (
@@ -489,6 +520,12 @@ function CheckoutContent() {
                     </select>
                   </div>
                   <div>
+                    <label className="text-[11px] font-semibold text-gray-500 font-bn mb-1 block">{t("এলাকা / থানা", "Area / Thana")}</label>
+                    <input type="text" value={form.shipping_area}
+                      onChange={(e) => setForm((p) => ({ ...p, shipping_area: e.target.value }))}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 font-bn transition-all" />
+                  </div>
+                  <div className="sm:col-span-2">
                     <label className="text-[11px] font-semibold text-gray-500 font-bn mb-1 block">{t("শিপিং জোন", "Shipping Zone")}</label>
                     <div className="grid grid-cols-2 gap-2">
                       {[
@@ -514,12 +551,6 @@ function CheckoutContent() {
                         );
                       })}
                     </div>
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-semibold text-gray-500 font-bn mb-1 block">{t("এলাকা / থানা", "Area / Thana")}</label>
-                    <input type="text" value={form.shipping_area}
-                      onChange={(e) => setForm((p) => ({ ...p, shipping_area: e.target.value }))}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 font-bn transition-all" />
                   </div>
                 </div>
                 {/* Delivery estimate */}

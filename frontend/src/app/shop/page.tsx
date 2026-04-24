@@ -77,7 +77,7 @@ export default function ShopPage() {
     );
   });
 
-  const handleAddToCart = (e: React.MouseEvent, item: ShopItem) => {
+  const handleAddToCart = async (e: React.MouseEvent, item: ShopItem) => {
     e.preventDefault();
     e.stopPropagation();
     addItem({
@@ -91,6 +91,26 @@ export default function ShopPage() {
       maxQuantity: item.stock_quantity,
       slug: item.slug,
     });
+    // Auto-add attached exams
+    try {
+      const exams: any = await api.get(`/exams/product/${item.id}/attached`);
+      if (Array.isArray(exams)) {
+        exams.forEach((exam: any) => {
+          addItem({
+            productId: exam.product_id,
+            productType: "exam",
+            title: exam.title,
+            title_bn: exam.title_bn,
+            thumbnail_url: exam.thumbnail_url,
+            price: exam.is_free ? 0 : exam.price,
+            compare_price: null,
+            maxQuantity: 1,
+            slug: exam.slug,
+            attachedTo: item.id,
+          });
+        });
+      }
+    } catch {}
     setAddedIds((prev) => new Set(prev).add(item.id));
     toast.success(t("কার্টে যোগ হয়েছে", "Added to cart"));
     setTimeout(() => {

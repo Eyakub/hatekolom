@@ -259,7 +259,7 @@ function LoginContent() {
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-400 font-bn">
               অ্যাকাউন্ট নেই?{" "}
-              <Link href="/register" className="font-bold text-primary-700 hover:underline">
+              <Link href={redirectTo ? `/register?redirect=${encodeURIComponent(redirectTo)}` : "/register"} className="font-bold text-primary-700 hover:underline">
                 ফ্রি রেজিস্ট্রেশন করুন
               </Link>
             </p>

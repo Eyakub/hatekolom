@@ -19,7 +19,7 @@ from sqlalchemy.orm import selectinload
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/children", tags=["Children"])
 
-MAX_CHILDREN = 2
+MAX_CHILDREN = 1
 
 
 class UnassignedCourseItem(BaseModel):
