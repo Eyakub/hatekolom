@@ -499,12 +499,9 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Grid Layout containing Main Left (Stats + Exams) and Right Sidebar */}
+      {/* Main Content */}
       {activeChild ? (
-        <div className="grid lg:grid-cols-12 gap-8">
-          
-          {/* Main Content Area (Left 8 cols) */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
+        <div className="flex flex-col gap-6">
             
             {/* Stats Banner */}
             <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-50 p-6 flex flex-col md:flex-row items-center gap-6 relative overflow-hidden">
@@ -541,12 +538,16 @@ export default function DashboardPage() {
               </h2>
             </div>
 
-            {/* Exams Grid */}
-            <div className="grid md:grid-cols-2 gap-5">
+            {/* Exams Grid — full width, 3 cols */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {exams.length === 0 ? (
-                <div className="md:col-span-2 bg-white rounded-3xl p-8 text-center shadow-sm border border-gray-50">
-                  <GraduationCap className="w-12 h-12 text-gray-200 mx-auto mb-3" />
-                  <h3 className="text-lg font-bold text-gray-400 font-bn">{t("কোনো পরীক্ষা নেই", "No exams yet")}</h3>
+                <div className="sm:col-span-2 lg:col-span-3 bg-white rounded-3xl p-12 text-center shadow-sm border border-gray-50">
+                  <GraduationCap className="w-16 h-16 text-gray-200 mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-gray-400 font-bn">{t("কোনো পরীক্ষা নেই", "No exams yet")}</h3>
+                  <p className="text-sm text-gray-400 font-bn mt-2">{t("বই কিনলে সাথে পরীক্ষা পাবেন", "Purchase a book to get exams")}</p>
+                  <Link href="/shop" className="mt-5 inline-flex items-center py-2.5 px-6 bg-primary-700 text-white font-bold rounded-xl text-sm hover:bg-primary-800 shadow-md font-bn">
+                    {t("শপে যান", "Go to Shop")}
+                  </Link>
                 </div>
               ) : (
                 exams.map((exam) => {
@@ -619,156 +620,6 @@ export default function DashboardPage() {
               )}
             </div>
 
-          </div>
-
-          {/* Right Column (4 cols) */}
-          <div className="lg:col-span-4 flex flex-col gap-5">
-
-            {/* Drawings & Challenges Card — Coming Soon */}
-            <div className="bg-gradient-to-br from-pink-600 to-purple-700 rounded-2xl p-5 text-white relative overflow-hidden shadow-lg shadow-pink-700/10 group">
-              <div className="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
-              <div className="absolute -left-8 -bottom-8 w-32 h-32 bg-purple-500/40 rounded-full blur-2xl" />
-
-              {/* Blurred Overlay */}
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-pink-900/40 backdrop-blur-[2px] transition-all">
-                <div className="bg-white/10 border border-white/20 px-4 py-3 rounded-xl backdrop-blur-md shadow-xl flex flex-col items-center transform transition-transform group-hover:scale-105">
-                  <div className="w-8 h-8 bg-pink-500/20 rounded-full flex items-center justify-center mb-1.5 border border-pink-400/50">
-                    <span className="w-2.5 h-2.5 rounded-full bg-pink-400 animate-pulse" />
-                  </div>
-                  <h3 className="font-black text-xl font-bn text-white tracking-wide">{t("শীঘ্রই আসছে", "Coming Soon")}</h3>
-                  <p className="text-pink-100 font-bn text-[11px] mt-0.5">{t("এই ফিচার অতি শীঘ্রই আসছে", "This feature will be available shortly")}</p>
-                </div>
-              </div>
-
-              {/* Mock Content underneath */}
-              <div className="relative z-10 opacity-60">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-extrabold text-white text-base flex items-center gap-2">
-                    <Pencil className="w-4 h-4" />
-                    <span className="font-bn">{t("আঁকা ও চ্যালেঞ্জ", "Art & Challenges")}</span>
-                  </h3>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2.5">
-                  <div className="bg-white/10 rounded-xl p-3 flex flex-col items-center gap-1.5 text-center">
-                    <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center">
-                      <Pencil className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-[11px] font-bold text-white/80 font-bn">{t("মুক্ত আঁকা", "Free Draw")}</span>
-                  </div>
-
-                  <div className="bg-white/10 rounded-xl p-3 flex flex-col items-center gap-1.5 text-center">
-                    <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center">
-                      <Image className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-[11px] font-bold text-white/80 font-bn">{t("আমার ছবি", "My Drawings")}</span>
-                  </div>
-
-                  <div className="bg-white/10 rounded-xl p-3 flex flex-col items-center gap-1.5 text-center">
-                    <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center">
-                      <Target className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-[11px] font-bold text-white/80 font-bn">{t("চ্যালেঞ্জ", "Challenges")}</span>
-                  </div>
-
-                  <div className="bg-white/10 rounded-xl p-3 flex flex-col items-center gap-1.5 text-center">
-                    <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center">
-                      <Heart className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-[11px] font-bold text-white/80 font-bn">{t("গ্যালারি", "Gallery")}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Recent Activity Card */}
-            <div className="bg-white rounded-2xl p-5 shadow-[0_2px_12px_rgb(0,0,0,0.02)] border border-gray-50">
-              <div className="flex justify-between items-center mb-5">
-                <h3 className="font-extrabold text-gray-900 text-base">{t("সাম্প্রতিক কার্যকলাপ", "Recent Activity")}</h3>
-                <button className="text-gray-400 hover:text-gray-600">
-                  <div className="flex gap-1">
-                    <div className="w-1 h-1 bg-current rounded-full" />
-                    <div className="w-1 h-1 bg-current rounded-full" />
-                    <div className="w-1 h-1 bg-current rounded-full" />
-                  </div>
-                </button>
-              </div>
-
-              <div className="space-y-5 relative before:absolute before:inset-0 before:ml-[0.95rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-px before:bg-gradient-to-b before:from-transparent before:via-gray-100 before:to-transparent">
-                {/* Mocked activity stream matching design */}
-                <div className="relative flex items-start justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                  <div className="flex items-center justify-center w-7 h-7 rounded-full border-4 border-white bg-primary-100 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm relative z-10 transition-colors mt-0.5">
-                    <GraduationCap className="w-3 h-3 text-primary-700" />
-                  </div>
-                  <div className="w-full md:w-[calc(100%-2rem)] ml-3 md:ml-0 md:group-odd:pr-6 md:group-even:pl-6">
-                    <div className="flex flex-col">
-                      <span className="font-bold text-gray-900 text-sm">{t("কোর্সে ভর্তি হয়েছে", "Course Enrolled")}</span>
-                      <span className="text-[11px] text-gray-400 mt-0.5">{(locale === "bn" && enrollments[0]?.course_title_bn) || enrollments[0]?.course_title || t('কোনো কোর্স নেই', 'No recent courses')} • {t("আজকে", "Today")}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative flex items-start justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                  <div className="flex items-center justify-center w-7 h-7 rounded-full border-4 border-white bg-amber-50 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm relative z-10 mt-0.5">
-                    <Award className="w-3 h-3 text-amber-600" />
-                  </div>
-                  <div className="w-full md:w-[calc(100%-2rem)] ml-3 md:ml-0 md:group-odd:pr-6 md:group-even:pl-6">
-                    <div className="flex flex-col">
-                      <span className="font-bold text-gray-900 text-sm">{t("সার্টিফিকেট অর্জন", "Certificates Earned")}</span>
-                      <span className="text-[11px] text-gray-400 mt-0.5">{activeChildCertificates.length} {t("টি সার্টিফিকেট আনলক", "certificates unlocked")} • {t("হিস্টরি", "History")}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 text-center border-t border-gray-50 pt-4">
-                <button className="text-[11px] font-bold text-primary-700 hover:text-primary-800 px-4 py-1.5 rounded-lg bg-primary-50 hover:bg-primary-100 transition-colors">
-                  {t("পারফরম্যান্স হিস্টরি দেখুন", "View Performance History")}
-                </button>
-              </div>
-            </div>
-
-            {/* Live Session Promo Card - Upcoming Feature */}
-            <div className="bg-primary-700 rounded-2xl p-6 text-white relative overflow-hidden shadow-lg shadow-primary-700/10 group">
-              <div className="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
-              <div className="absolute -left-8 -bottom-8 w-32 h-32 bg-primary-500/40 rounded-full blur-2xl" />
-              
-              {/* Blurred Overlay */}
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-primary-900/40 backdrop-blur-[2px] transition-all">
-                <div className="bg-white/10 border border-white/20 px-4 py-3 rounded-xl backdrop-blur-md shadow-xl flex flex-col items-center transform transition-transform group-hover:scale-105">
-                  <div className="w-8 h-8 bg-amber-500/20 rounded-full flex items-center justify-center mb-1.5 border border-amber-400/50">
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
-                  </div>
-                  <h3 className="font-black text-xl font-bn text-white tracking-wide">{t("শীঘ্রই আসছে", "Coming Soon")}</h3>
-                  <p className="text-primary-100 font-bn text-[11px] mt-0.5">{t("এই ফিচার অতি শীঘ্রই আসছে", "This feature will be available shortly")}</p>
-                </div>
-              </div>
-
-              {/* Mock Content underneath */}
-              <div className="relative z-10 opacity-60">
-                <h3 className="font-black font-bn text-xl mb-1">{t("আজকের লাইভ সেশন", "Live Session Today")}</h3>
-                <p className="text-primary-100 font-bn text-xs leading-relaxed mb-5">
-                  {t("বেসিক ক্লিয়ারেন্স ক্লাস - সরাসরি জুম সেশন!", "Mastering Fundamentals - Immersive Live Session!")}
-                </p>
-                
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex -space-x-2">
-                    <div className="w-8 h-8 rounded-full bg-primary-300 border-2 border-primary-700 flex items-center justify-center font-bold text-[10px]">+১২</div>
-                    <div className="w-8 h-8 rounded-full bg-primary-400 border-2 border-primary-700" />
-                    <div className="w-8 h-8 rounded-full bg-amber-400 border-2 border-primary-700" />
-                  </div>
-                  <div className="px-3 py-1.5 bg-white/10 rounded-full text-[10px] font-bold font-bn w-fit border border-white/10">
-                    {locale === "bn" ? "বিকাল ৩:০০" : "14:00 PM"}
-                  </div>
-                </div>
-
-                <div className="w-full py-2.5 bg-white/10 text-white/50 border border-white/20 rounded-xl font-black font-bn text-xs text-center">
-                  {t("ক্লাসরুমে যোগ দিন", "Join Classroom")}
-                </div>
-              </div>
-            </div>
-
-          </div>
         </div>
       ) : (
         <div className="bg-white rounded-[32px] border border-gray-50 p-16 text-center shadow-sm">
