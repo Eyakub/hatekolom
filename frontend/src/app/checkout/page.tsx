@@ -71,7 +71,7 @@ function CheckoutContent() {
       setLoading(false);
       return;
     }
-    if (!productId) { router.push("/courses"); return; }
+    if (!productId) { router.push("/shop"); return; }
     const loadProduct = async () => {
       try {
         if (productType === "ebook") {
@@ -299,7 +299,7 @@ function CheckoutContent() {
               <Link href="/dashboard/orders" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-700 text-white font-bold rounded-xl hover:bg-primary-800 transition-all font-bn shadow-md">
                 {t("অর্ডার ট্র্যাক করো", "Track Order")}
               </Link>
-              <Link href={isCartCheckout ? "/shop" : productType === "ebook" ? "/ebooks" : "/courses"} className="text-sm text-primary-700 font-semibold hover:underline font-bn">
+              <Link href={isCartCheckout ? "/shop" : productType === "ebook" ? "/ebooks" : "/shop"} className="text-sm text-primary-700 font-semibold hover:underline font-bn">
                 {isCartCheckout ? t("আরও শপিং করো", "Continue Shopping") : t(`আরও ${productType === "ebook" ? "ই-বুক" : "কোর্স"} দেখো`, `Browse more ${productType === "ebook" ? "ebooks" : "courses"}`)}
               </Link>
             </div>
@@ -320,7 +320,7 @@ function CheckoutContent() {
     paymentMethods.push({ id: "cod", label: t("ক্যাশ অন ডেলিভারি", "Cash on Delivery"), icon: Truck, bg: "bg-gradient-to-br from-emerald-500 to-emerald-600", ring: "ring-emerald-400" });
   }
 
-  const backHref = isCartCheckout ? "/shop" : productType === "ebook" ? "/ebooks" : "/courses";
+  const backHref = isCartCheckout ? "/shop" : productType === "ebook" ? "/ebooks" : "/shop";
 
   // ─── MAIN CHECKOUT UI ──────────────────────────
   return (

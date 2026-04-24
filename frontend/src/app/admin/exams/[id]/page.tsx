@@ -153,6 +153,7 @@ export default function ExamEditorPage() {
     if (!examId || !accessToken) return;
     loadExam();
     loadAttempts();
+    loadAttachedProducts();
   }, [examId, accessToken]);
 
   const loadExam = async () => {
@@ -495,8 +496,13 @@ export default function ExamEditorPage() {
   };
 
   const loadAttachedProducts = async () => {
-    // No dedicated endpoint for listing attached products; we can't load them separately.
-    // This is a placeholder; in a real setup, the admin response would include attached_products.
+    if (!examId || !accessToken) return;
+    try {
+      const data: any = await api.get(`/exams/${examId}/attached-products`, accessToken!);
+      setAttachedProducts(Array.isArray(data) ? data : []);
+    } catch {
+      setAttachedProducts([]);
+    }
   };
 
   // ---- Loading state ----
@@ -709,7 +715,7 @@ export default function ExamEditorPage() {
           </div>
 
           {/* Right Column: Sidebar (30%) */}
-          <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-20 lg:self-start">
+          <div className="lg:col-span-4 lg:sticky lg:top-[60px] lg:self-start lg:max-h-[calc(100vh-70px)] lg:overflow-y-auto lg:pb-6 space-y-6" style={{ scrollbarWidth: 'thin' }}>
 
             {/* Exam Settings Card */}
             <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
@@ -897,31 +903,45 @@ export default function ExamEditorPage() {
                   </div>
                 )}
 
-                {/* Attached products */}
-                {attachedProducts.length > 0 && (
-                  <div className="space-y-1.5 pt-2 border-t border-gray-100">
-                    <p className="text-[10px] font-bold text-gray-400 font-bn">{t("সংযুক্ত প্রোডাক্টসমূহ:", "Attached Products:")}</p>
-                    {attachedProducts.map((p: any) => (
-                      <div key={p.id} className="flex items-center justify-between px-3 py-2 bg-blue-50 rounded-lg">
-                        <span className="text-xs text-gray-800 font-bn truncate flex-1 mr-2">
-                          {p.title_bn || p.title}
-                        </span>
-                        <button
-                          onClick={() => detachProduct(p.id)}
-                          className="px-2 py-1 bg-red-100 text-red-600 rounded text-[10px] font-bold hover:bg-red-200 shrink-0"
-                        >
-                          {t("বিচ্ছিন্ন", "Detach")}
-                        </button>
-                      </div>
-                    ))}
+                {/* Attached products — always visible */}
+                <div className="pt-3 border-t border-gray-100">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-[11px] font-bold text-gray-500 font-bn">
+                      {t("সংযুক্ত প্রোডাক্টসমূহ", "Attached Products")}
+                    </p>
+                    {attachedProducts.length > 0 && (
+                      <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded-full">
+                        {attachedProducts.length}
+                      </span>
+                    )}
                   </div>
-                )}
-
-                {attachedProducts.length === 0 && productResults.length === 0 && (
-                  <p className="text-xs text-gray-400 font-bn text-center py-2">
-                    {t("প্রোডাক্ট খুঁজে সংযুক্ত করুন", "Search and attach products")}
-                  </p>
-                )}
+                  {attachedProducts.length > 0 ? (
+                    <div className="space-y-1.5">
+                      {attachedProducts.map((p: any) => (
+                        <div key={p.id} className="flex items-center justify-between px-3 py-2 bg-blue-50 rounded-lg">
+                          <div className="flex items-center gap-2 flex-1 min-w-0 mr-2">
+                            {p.thumbnail_url && (
+                              <img src={p.thumbnail_url} alt="" className="w-7 h-7 rounded object-cover shrink-0" />
+                            )}
+                            <span className="text-xs text-gray-800 font-bn truncate">
+                              {p.title_bn || p.title}
+                            </span>
+                          </div>
+                          <button
+                            onClick={() => detachProduct(p.id)}
+                            className="px-2 py-1 bg-red-100 text-red-600 rounded text-[10px] font-bold hover:bg-red-200 shrink-0"
+                          >
+                            {t("বিচ্ছিন্ন", "Detach")}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 font-bn text-center py-3 bg-gray-50 rounded-lg">
+                      {t("কোনো প্রোডাক্ট সংযুক্ত নেই। উপরে খুঁজে সংযুক্ত করুন।", "No products attached. Search above to attach.")}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 

@@ -515,6 +515,38 @@ async def get_attached_exams(
     ]
 
 
+@router.get("/{exam_id}/attached-products")
+async def get_attached_products(
+    exam_id: UUID,
+    user: User = Depends(PermissionChecker([Permission.COURSE_CREATE])),
+    db: AsyncSession = Depends(get_db),
+):
+    """Get all products attached to a specific exam (admin)."""
+    result = await db.execute(
+        select(ProductExam).where(ProductExam.exam_id == exam_id)
+    )
+    links = result.scalars().all()
+    if not links:
+        return []
+
+    product_ids = [link.product_id for link in links]
+    products_result = await db.execute(
+        select(Product).where(Product.id.in_(product_ids))
+    )
+    products = products_result.scalars().all()
+
+    return [
+        {
+            "id": str(p.id),
+            "title": p.title,
+            "title_bn": p.title_bn,
+            "slug": p.slug,
+            "thumbnail_url": p.thumbnail_url,
+        }
+        for p in products
+    ]
+
+
 @router.post("/sections/{section_id}/questions", status_code=201)
 async def add_question_to_section(
     section_id: UUID,
