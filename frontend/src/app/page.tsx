@@ -27,8 +27,6 @@ import {
   Sparkles,
   Puzzle,
   Award,
-  ShieldCheck,
-  TrendingUp,
   Rocket,
   ShoppingBag,
   ShoppingCart,
@@ -431,181 +429,28 @@ export default function HomePage() {
         />
       </section>
       {/* ============================================
-          CORE BENEFITS / GOAL (Bento Layout)
+          CORE BENEFITS
           ============================================ */}
-      <section className="max-w-7xl mx-auto px-6 relative pt-16 md:pt-24 pb-8 md:pb-12">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 bg-primary-50 text-primary-700 font-bold text-[0.75rem] tracking-widest uppercase rounded-full mb-4 font-bn">
+      <section className="max-w-6xl mx-auto px-6 pt-16 md:pt-24 pb-8 md:pb-12 text-center">
+        <RevealOnScroll>
+          <span className="inline-block px-4 py-1.5 bg-primary-50 text-primary-700 font-bold text-[0.75rem] tracking-widest uppercase rounded-full mb-6 font-bn">
             {t("কোর বেনিফিট", "Core Benefits")}
           </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4 font-bn leading-tight">
-            {t("পরিপাটি ও আধুনিক শিক্ষার", "A Unique Environment for")} <br className="hidden md:block" />
-            <span className="text-primary-700">{t("এক অনন্য আঙ্গিনা।", "Neat & Modern Education.")}</span>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-5 font-bn leading-tight">
+            {t("শিশুদের মেধা বিকাশে আধুনিক আর আনন্দময় শিক্ষার", "A new world of modern and joyful learning")}
+            <br />
+            <span className="text-primary-700">
+              {t("নতুন এক জগত।", "for children's mental development.")}
+            </span>
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto text-lg font-bn">
+
+          <p className="text-gray-500 max-w-2xl mx-auto text-lg font-bn leading-relaxed">
             {t(
-              "আমরা একাডেমিক নিয়মের পাশাপাশি সৃজনশীল আবিষ্কারের সমন্বয় করি, যা আপনার সন্তানকে আধুনিক বিশ্বের জন্য প্রস্তুত করে।",
-              "We combine academic rigor with creative discovery to give your child a head start in the modern world."
+              "প্রথাগত শিক্ষার বাইরে আমরা জোর দিই নতুন কিছু শেখার ওপর, যাতে আপনার সন্তান বুদ্ধিদীপ্ত ও আত্মবিশ্বাসী হয়ে বড় হয়।",
+              "Beyond traditional education, we focus on learning new things, so that your child grows up to be intelligent and confident."
             )}
           </p>
-        </div>
-
-        {/* Dynamic Bento/Floating Layout */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Column (3 cards) */}
-          <div className="lg:col-span-4 space-y-6 md:space-y-8 order-2 lg:order-1">
-            {/* Card 1 */}
-            <RevealOnScroll delay={0.1}>
-              <Link href="/courses" className="block group">
-                <motion.div whileHover={{ y: -8, scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }} className="bg-white p-6 rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-gray-100">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700">
-                      <Calculator className="w-6 h-6" />
-                    </div>
-                    <h3 className="font-bold text-lg text-gray-900 leading-tight font-bn">{t("ব্রেইন পাওয়ার বৃদ্ধি", "Boost Brain Power")}</h3>
-                  </div>
-                  <p className="text-sm text-gray-500 mb-4 leading-relaxed font-bn">
-                    {t("অ্যাডভান্সড অ্যাবাকাস ট্রেনিং প্রোগ্রামের মাধ্যমে মানসিক গাণিতিক দক্ষতা এবং ফোকাস আয়ত্ত করুন।", "Master mental arithmetic and focus through our advanced abacus training program.")}
-                  </p>
-                  <div className="text-primary-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all font-bn">
-                    {t("বিস্তারিত দেখুন", "Learn More")} <ArrowRight className="w-4 h-4" />
-                  </div>
-                </motion.div>
-              </Link>
-            </RevealOnScroll>
-            {/* Card 2 */}
-            <RevealOnScroll delay={0.2}>
-              <Link href="/courses" className="block group lg:translate-x-6">
-                <motion.div whileHover={{ y: -8, scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }} className="bg-white p-6 rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-gray-100">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
-                      <BookOpen className="w-6 h-6" />
-                    </div>
-                    <h3 className="font-bold text-lg text-gray-900 leading-tight font-bn">{t("ইংরেজিতে দক্ষতা", "Excel in English")}</h3>
-                  </div>
-                  <p className="text-sm text-gray-500 mb-4 leading-relaxed font-bn">
-                    {t("ছোটবেলা থেকেই উন্নত শব্দভাণ্ডার এবং সম্পাদকীয় মানের লেখার দক্ষতা তৈরি করুন।", "Build a sophisticated vocabulary and editorial-grade writing skills from an early age.")}
-                  </p>
-                  <div className="text-primary-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all font-bn">
-                    {t("বিস্তারিত দেখুন", "Learn More")} <ArrowRight className="w-4 h-4" />
-                  </div>
-                </motion.div>
-              </Link>
-            </RevealOnScroll>
-            {/* Card 3 */}
-            <RevealOnScroll delay={0.3}>
-              <Link href="/courses" className="block group">
-                <motion.div whileHover={{ y: -8, scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }} className="bg-white p-6 rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-gray-100">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-700">
-                      <Brain className="w-6 h-6" />
-                    </div>
-                    <h3 className="font-bold text-lg text-gray-900 leading-tight font-bn">{t("গণিতের ভয় আর নয়", "No More Fear of Math")}</h3>
-                  </div>
-                  <p className="text-sm text-gray-500 mb-4 leading-relaxed font-bn">
-                    {t("আমরা জটিল সংখ্যাগুলোকে মজার পাজলে পরিণত করি, যা গাণিতিক আত্মবিশ্বাস তৈরি করে।", "We turn complex numbers into playful puzzles, building lasting mathematical confidence.")}
-                  </p>
-                  <div className="text-primary-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all font-bn">
-                    {t("বিস্তারিত দেখুন", "Learn More")} <ArrowRight className="w-4 h-4" />
-                  </div>
-                </motion.div>
-              </Link>
-            </RevealOnScroll>
-          </div>
-
-          {/* Central Focal Point (The Child Image) */}
-          <div className="lg:col-span-4 flex justify-center order-1 lg:order-2 my-8 lg:my-0">
-            <RevealOnScroll delay={0.2}>
-            <div className="relative w-full max-w-[350px] lg:max-w-[400px]">
-              {/* Decorative Ring */}
-              <motion.div 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 border-[3px] border-dashed border-primary-300 rounded-full" 
-              />
-              {/* Main Image Container */}
-              <div className="relative z-10 p-5">
-                <img
-                  className="w-full aspect-square object-cover rounded-full shadow-2xl border-8 border-white"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFN2CRfZPHgoknZEvVDkwhlOsi4mTaWvcYHfTAWddqDc0rhnz-PICixOzaBMOGULOMuy6T9f-w23gBEzWVUWU1f9YkD4EXruFP_DN3ihVZWB1lj2wwZd7UkeUpSRlQtt4A9LI9D8k6ZThgOBaPHjrCUluUyZKLXTY373HZvvlfq3phOXMihMrwe6PGQHmQM7yt-4i6wuZgZuGWvcsdqzH-aP85_uFUATI41edi9025fMF87k7zlD5z0QKCKP3UkPv0cWgxMzYT-TlM"
-                  alt="Happy student learning"
-                />
-                {/* Floating Badge */}
-                <motion.div 
-                  animate={{ y: [-5, 5, -5], rotate: [8, -4, 8] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute top-2 right-2 bg-accent-400 text-primary-900 w-16 h-16 md:w-20 md:h-20 rounded-full shadow-lg flex flex-col items-center justify-center cursor-pointer hover:bg-accent-300"
-                >
-                  <span className="text-xl md:text-2xl font-black font-bn leading-none">#১</span>
-                  <span className="text-[10px] md:text-xs font-bold tracking-tighter uppercase leading-none mt-1">Choice</span>
-                </motion.div>
-              </div>
-            </div>
-            </RevealOnScroll>
-          </div>
-
-          {/* Right Column (3 cards) */}
-          <div className="lg:col-span-4 space-y-6 md:space-y-8 order-3 lg:order-3">
-            {/* Card 4 */}
-            <RevealOnScroll delay={0.4}>
-              <Link href="/courses" className="block group">
-                <motion.div whileHover={{ y: -8, scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }} className="bg-white p-6 rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-gray-100">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
-                      <GraduationCap className="w-6 h-6" />
-                    </div>
-                    <h3 className="font-bold text-lg text-gray-900 leading-tight font-bn">{t("সম্পূর্ণ প্রস্তুতি", "Complete Preparation")}</h3>
-                  </div>
-                  <p className="text-sm text-gray-500 mb-4 leading-relaxed font-bn">
-                    {t("বাড়ি এবং শীর্ষ বিদ্যালয়ের মধ্যে সেতুবন্ধন তৈরি করার জন্য ডিজাইন করা একটি কারিকুলাম।", "A holistic curriculum designed to bridge the gap between home and top-tier schools.")}
-                  </p>
-                  <div className="text-primary-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all font-bn">
-                    {t("বিস্তারিত দেখুন", "Learn More")} <ArrowRight className="w-4 h-4" />
-                  </div>
-                </motion.div>
-              </Link>
-            </RevealOnScroll>
-            {/* Card 5 */}
-            <RevealOnScroll delay={0.5}>
-              <Link href="/courses" className="block group lg:-translate-x-6">
-                <motion.div whileHover={{ y: -8, scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }} className="bg-white p-6 rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-gray-100">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center text-teal-700">
-                      <Phone className="w-6 h-6" />
-                    </div>
-                    <h3 className="font-bold text-lg text-gray-900 leading-tight font-bn">{t("বাড়ি থেকে প্রি-স্কুলিং", "Pre-Schooling from Home")}</h3>
-                  </div>
-                  <p className="text-sm text-gray-500 mb-4 leading-relaxed font-bn">
-                    {t("ইন্টারেক্টিভ লাইভ সেশনের মাধ্যমে উচ্চমানের প্রারম্ভিক শিক্ষা আপনার দোরগোড়ায়।", "High-quality early education delivered directly to your doorstep via interactive live sessions.")}
-                  </p>
-                  <div className="text-primary-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all font-bn">
-                    {t("বিস্তারিত দেখুন", "Learn More")} <ArrowRight className="w-4 h-4" />
-                  </div>
-                </motion.div>
-              </Link>
-            </RevealOnScroll>
-            {/* Card 6 */}
-            <RevealOnScroll delay={0.6}>
-              <Link href="/courses" className="block group">
-                <motion.div whileHover={{ y: -8, scale: 1.03 }} transition={{ type: "spring", stiffness: 300 }} className="bg-white p-6 rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-gray-100">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-pink-100 flex items-center justify-center text-pink-700">
-                      <Code className="w-6 h-6" />
-                    </div>
-                    <h3 className="font-bold text-lg text-gray-900 leading-tight font-bn">{t("কোডিং মাস্টারী", "Coding Mastery")}</h3>
-                  </div>
-                  <p className="text-sm text-gray-500 mb-4 leading-relaxed font-bn">
-                    {t("লজিক এবং ক্রিয়েটিভ কোডিং দিয়ে আপনার সন্তানকে ডিজিটাল বিশ্ব গড়তে সক্ষম করুন।", "Empower your child to build their own digital worlds with logic and creative coding.")}
-                  </p>
-                  <div className="text-primary-600 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all font-bn">
-                    {t("বিস্তারিত দেখুন", "Learn More")} <ArrowRight className="w-4 h-4" />
-                  </div>
-                </motion.div>
-              </Link>
-            </RevealOnScroll>
-          </div>
-        </div>
+        </RevealOnScroll>
       </section>
 
       {/* ============================================
@@ -777,7 +622,7 @@ export default function HomePage() {
         <RevealOnScroll>
           <div className="bg-white rounded-[2.5rem] p-10 relative overflow-hidden shadow-[0_20px_50px_rgba(34,0,93,0.08)] border-4 border-gray-50/50">
             <div className="absolute -bottom-10 -right-10 opacity-[0.03] rotate-45 pointer-events-none">
-              <ShieldCheck size={240} fill="currentColor" />
+              <Award size={240} fill="currentColor" />
             </div>
             
             <h2 className="text-3xl font-extrabold font-bn text-center mb-10 relative z-10 text-gray-900">
@@ -786,9 +631,36 @@ export default function HomePage() {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
               {[
-                { icon: ShieldCheck, title: t("নিরাপদ গণ্ডি", "Safe Haven"), desc: t("ছোটদের জন্য শতভাগ মডারেট করা নিরাপদ স্পেস।", "100% moderated spaces designed specifically for young explorers."), color: "bg-blue-50", iconColor: "text-blue-600" },
-                { icon: TrendingUp, title: t("প্রকৃত অগ্রগতি", "Real Progress"), desc: t("তাদের সাফল্য উদযাপনের জন্য সুন্দর ও সহজ ড্যাশবোর্ড।", "Beautiful, easy-to-read dashboards so you can celebrate their wins."), color: "bg-purple-50", iconColor: "text-purple-600" },
-                { icon: Brain, title: t("দক্ষতা তৈরি", "Skill Building"), desc: t("সৃজনশীলতা, বিশ্লেষণ ও আত্মবিশ্বাস তৈরিতে ফোকাস।", "Focused on creativity, critical thinking, and confidence."), color: "bg-emerald-50", iconColor: "text-emerald-600" }
+                {
+                  icon: Heart,
+                  title: t("আনন্দময় পড়াশোনা", "Joyful Learning"),
+                  desc: t(
+                    "আমাদের বইগুলো পেয়ে বাচ্চারা ভীষণ খুশি হয়। আর অভিভাবকরাও নিশ্চিন্ত থাকেন, কারণ বাচ্চারা আনন্দের সাথে নতুন কিছু শিখছে।",
+                    "Children are overjoyed with our books, and parents rest easy knowing their little ones are learning happily."
+                  ),
+                  color: "bg-rose-50",
+                  iconColor: "text-rose-500",
+                },
+                {
+                  icon: GraduationCap,
+                  title: t("বইয়ের সাথে পরীক্ষা", "Books + Exams"),
+                  desc: t(
+                    "আমাদের প্রতিটি বইয়ের সাথে বাচ্চারা পাচ্ছে অনলাইনে পরীক্ষা দিয়ে নিজেদের প্রস্তুতি যাচাই করার চমৎকার সুযোগ।",
+                    "With every book, children get the wonderful opportunity to test their preparation through our online exams."
+                  ),
+                  color: "bg-blue-50",
+                  iconColor: "text-blue-600",
+                },
+                {
+                  icon: Award,
+                  title: t("সাফল্যের স্বীকৃতি", "Recognition of Achievement"),
+                  desc: t(
+                    "পরীক্ষায় অংশগ্রহণ করলেই থাকছে আকর্ষণীয় সার্টিফিকেট পাওয়ার সুযোগ, যা বাচ্চাদের পড়াশোনায় আরও বেশি উৎসাহ জোগাবে।",
+                    "Participating in exams comes with the chance to earn an exciting certificate, motivating children to study even more."
+                  ),
+                  color: "bg-amber-50",
+                  iconColor: "text-amber-500",
+                },
               ].map((item) => (
                 <motion.div 
                   key={item.title}
