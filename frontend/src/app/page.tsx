@@ -35,6 +35,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
+import { ExamCard } from "@/components/exam/ExamCard";
 import { SuccessAndJoyHub } from "@/components/home/SuccessAndJoyHub";
 import { HappyBabyELibrary } from "@/components/home/HappyBabyELibrary";
 import { PlatformAchievements } from "@/components/home/PlatformAchievements";
@@ -45,6 +46,24 @@ import { toast } from "@/stores/toast-store";
 import { api } from "@/lib/api";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+
+interface HomeExam {
+  id: string;
+  slug: string;
+  title: string;
+  title_bn: string | null;
+  thumbnail_url: string | null;
+  price: number;
+  compare_price: number | null;
+  is_free: boolean;
+  exam_type: string;
+  total_sections: number;
+  total_questions: number;
+  time_limit_seconds: number | null;
+  pass_percentage: number;
+  scheduled_start: string | null;
+  scheduled_end: string | null;
+}
 
 interface ShopItem {
   id: string;
@@ -176,6 +195,8 @@ export default function HomePage() {
   const [shopItems, setShopItems] = useState<ShopItem[]>([]);
   const [shopLoading, setShopLoading] = useState(true);
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+  const [exams, setExams] = useState<HomeExam[]>([]);
+  const [examsLoading, setExamsLoading] = useState(true);
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("");
@@ -211,6 +232,19 @@ export default function HomePage() {
       setShopLoading(false);
     };
     loadShop();
+  }, []);
+
+  // Load exams
+  useEffect(() => {
+    const loadExams = async () => {
+      setExamsLoading(true);
+      try {
+        const data: any = await api.get("/exams/");
+        setExams(Array.isArray(data) ? data.slice(0, 3) : []);
+      } catch { setExams([]); }
+      setExamsLoading(false);
+    };
+    loadExams();
   }, []);
 
   const handleAddToCart = (e: React.MouseEvent, item: ShopItem) => {
@@ -613,7 +647,64 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ============================================
+          EXAMS SECTION
+          ============================================ */}
+      {exams.length > 0 && (
+        <section className="pt-8 md:pt-12 pb-16 md:pb-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Section Header */}
+            <div className="text-left mb-8 md:mb-10">
+              <h2 className="text-3xl md:text-5xl font-extrabold font-bn text-gray-900 mb-3 tracking-tight">
+                {t("অনলাইন পরীক্ষা", "Online Exams")}
+              </h2>
+              <p className="text-gray-500 font-bn font-medium text-lg">
+                {t(
+                  "বই পড়া শেষ? এবার পরীক্ষা দিয়ে নিজেকে যাচাই করো!",
+                  "Finished reading? Now test yourself with our exams!"
+                )}
+              </p>
+            </div>
 
+            {/* Exam Grid */}
+            {examsLoading ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="rounded-2xl overflow-hidden">
+                    <div className="skeleton h-48" />
+                    <div className="p-5 space-y-3 bg-white border border-gray-100 rounded-b-2xl">
+                      <div className="skeleton h-4 w-3/4" />
+                      <div className="skeleton h-3 w-1/2" />
+                      <div className="skeleton h-8 w-24" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {exams.map((exam) => (
+                  <RevealOnScroll key={exam.id} delay={0.1}>
+                    <ExamCard exam={exam} />
+                  </RevealOnScroll>
+                ))}
+              </div>
+            )}
+
+            {/* View All Link */}
+            <div className="text-center mt-10">
+              <Link href="/exams">
+                <motion.button
+                  className="group bg-gradient-to-r from-[#1a3f6f] to-[#2563eb] text-white font-extrabold font-bn px-10 py-4 rounded-full text-xl shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 active:translate-y-0 transition-all inline-flex items-center gap-3 mx-auto"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  {t("সব পরীক্ষা দেখুন", "View All Exams")}
+                  <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
+                </motion.button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ============================================
           WHY GUARDIANS TRUST US (Parent Trust Section)
@@ -684,33 +775,28 @@ export default function HomePage() {
           ============================================ */}
       <section className="max-w-4xl mx-auto text-center px-6 pb-20 mt-16 relative z-10">
         <RevealOnScroll>
-          <motion.div 
-            className="inline-block p-1 bg-white rounded-full mb-6 shadow-sm border border-gray-100 cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-          >
-            <div className="flex items-center gap-3 px-5 py-2">
-              <div className="flex -space-x-3">
-                <img alt="Student" className="w-8 h-8 rounded-full border-2 border-white shadow-sm" src="https://picsum.photos/seed/s1/50/50" referrerPolicy="no-referrer" />
-                <img alt="Student" className="w-8 h-8 rounded-full border-2 border-white shadow-sm" src="https://picsum.photos/seed/s2/50/50" referrerPolicy="no-referrer" />
-                <div className="w-8 h-8 rounded-full border-2 border-white bg-primary-600 flex items-center justify-center text-white text-xs font-bold shadow-sm">+</div>
-              </div>
-              <span className="font-bold font-bn text-primary-900 text-sm">
-                {t("৫০,০০০+ খুশি শিক্ষার্থীর সাথে যুক্ত হোন", "Join 50,000+ Happy Explorers")}
-              </span>
-            </div>
-          </motion.div>
-          
-          <h2 className="text-4xl md:text-5xl font-extrabold font-bn mb-8 text-gray-900">
-            {t("ভ্রমণ শুরু করার জন্য প্রস্তুত?", "Ready to Start the Journey?")}
+          <h2 className="text-4xl md:text-5xl font-extrabold font-bn mb-4 text-gray-900 leading-tight">
+            {t("আপনার সন্তানের শেখার যাত্রা", "Let Your Child's Learning Journey")}
+            <br />
+            <span className="text-primary-700">{t("শুরু হোক আজই!", "Begin Today!")}</span>
           </h2>
-          
-          <Link href="/register">
-            <motion.button 
-              className="group bg-primary-600 text-white font-extrabold font-bn px-10 py-5 rounded-full text-xl md:text-2xl shadow-[0_8px_0_#4c1d95] hover:shadow-[0_4px_0_#4c1d95] hover:translate-y-1 active:shadow-none active:translate-y-2 transition-all flex items-center gap-3 mx-auto border-2 border-primary-800"
-              whileHover={{ scale: 1.02 }}
+
+          <p className="text-gray-500 font-bn text-lg mb-10 max-w-xl mx-auto">
+            {t(
+              "আনন্দময় বই ও অনলাইন পরীক্ষার মাধ্যমে আপনার সন্তানকে দিন শেখার সেরা সঙ্গী।",
+              "Give your child the best learning companion through joyful books and online exams."
+            )}
+          </p>
+
+          <Link href="/shop">
+            <motion.button
+              className="group inline-flex items-center gap-3 bg-gradient-to-r from-amber-400 to-amber-500 text-blue-900 font-extrabold font-bn px-10 py-4 rounded-full text-lg shadow-lg shadow-amber-400/30 hover:from-amber-300 hover:to-amber-400 hover:shadow-xl hover:shadow-amber-400/40 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             >
-              {t("ভর্তি শুরু করুন", "Enroll Your Scholar")}
-              <Play size={24} className="group-hover:translate-x-1 transition-transform fill-white" />
+              <ShoppingBag size={22} />
+              {t("বই দেখুন", "Browse Books")}
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </Link>
         </RevealOnScroll>

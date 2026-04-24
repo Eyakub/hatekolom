@@ -428,8 +428,10 @@ export default function ExamEditorPage() {
     if (!productSearch.trim()) return;
     setSearchingProducts(true);
     try {
-      const data: any = await api.get(`/courses/?search=${encodeURIComponent(productSearch)}`, accessToken!);
-      const results = (data.items || data || []).filter((item: any) => item.product?.id !== exam?.product_id);
+      const data: any = await api.get(`/physical-items/?search=${encodeURIComponent(productSearch)}`, accessToken!);
+      const items = Array.isArray(data) ? data : (data.items || []);
+      // Exclude the exam's own product
+      const results = items.filter((item: any) => item.id !== exam?.product_id);
       setProductResults(results);
     } catch {
       setProductResults([]);
@@ -881,10 +883,10 @@ export default function ExamEditorPage() {
                     {productResults.map((item: any) => (
                       <div key={item.id} className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-lg">
                         <span className="text-xs text-gray-800 font-bn truncate flex-1 mr-2">
-                          {item.product?.title}
+                          {item.title_bn || item.title}
                         </span>
                         <button
-                          onClick={() => attachProduct(item.product?.id)}
+                          onClick={() => attachProduct(item.id)}
                           disabled={attaching}
                           className="px-2 py-1 bg-green-600 text-white rounded text-[10px] font-bold hover:bg-green-700 shrink-0 disabled:opacity-50"
                         >
