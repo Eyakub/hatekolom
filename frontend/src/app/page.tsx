@@ -490,6 +490,7 @@ export default function HomePage() {
       {/* ============================================
           SHOP — Product Grid
           ============================================ */}
+      {(shopLoading || shopItems.length > 0) && (
       <section className="pt-8 md:pt-12 pb-16 md:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
@@ -515,13 +516,6 @@ export default function HomePage() {
                   </div>
                 </div>
               ))}
-            </div>
-          ) : shopItems.length === 0 ? (
-            <div className="text-center py-20">
-              <Package className="w-16 h-16 text-gray-200 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-400 font-bn">
-                {t("এখনো কোনো প্রোডাক্ট নেই", "No products yet")}
-              </h3>
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
@@ -646,6 +640,7 @@ export default function HomePage() {
           )}
         </div>
       </section>
+      )}
 
       {/* ============================================
           EXAMS SECTION

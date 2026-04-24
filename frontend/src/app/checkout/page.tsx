@@ -79,6 +79,14 @@ function CheckoutContent() {
           const ebooks: any = await api.get("/ebooks/");
           const found = (Array.isArray(ebooks) ? ebooks : []).find((e: any) => e.id === productId);
           if (found) setProduct({ id: found.id, title: found.title, title_bn: found.title_bn, thumbnail_url: found.thumbnail_url, price: found.price, is_free: found.is_free, compare_price: found.compare_price });
+        } else if (productType === "exam") {
+          const exams: any = await api.get("/exams/");
+          const list = Array.isArray(exams) ? exams : [];
+          const found = list.find((e: any) => e.product_id === productId || e.product?.id === productId || e.id === productId);
+          if (found) {
+            const p = found.product || found;
+            setProduct({ id: p.id || found.product_id || productId, title: p.title || found.title, title_bn: p.title_bn || found.title_bn, thumbnail_url: p.thumbnail_url || found.thumbnail_url || null, price: p.price ?? found.price, is_free: p.is_free ?? found.is_free, compare_price: p.compare_price ?? found.compare_price });
+          }
         } else {
           const courses: any = await api.get("/courses/");
           const found = courses?.courses
@@ -198,9 +206,10 @@ function CheckoutContent() {
         orderData.items = [{ product_id: productId, quantity: 1 }];
         if (product?.is_free) orderData.payment_method = "free";
       }
-      if (isCartCheckout && cartHasPhysical) {
-        orderData.shipping = { shipping_name: form.shipping_name, shipping_phone: form.shipping_phone, shipping_address: form.shipping_address, shipping_area: form.shipping_area, shipping_city: form.shipping_city, shipping_zone: form.shipping_zone, shipping_postal: "" };
-      }
+      // Always send shipping/contact info
+      orderData.shipping = { shipping_name: form.shipping_name, shipping_phone: form.shipping_phone, shipping_address: form.shipping_address, shipping_area: form.shipping_area, shipping_city: form.shipping_city, shipping_zone: form.shipping_zone, shipping_postal: "" };
+      if (form.shipping_name) orderData.contact_name = form.shipping_name;
+      if (form.shipping_phone) orderData.contact_phone = form.shipping_phone;
       const selectedIds = Array.from(selectedChildIds);
       if (selectedIds.length > 1) orderData.child_profile_ids = selectedIds;
       else if (selectedIds.length === 1) orderData.child_profile_id = selectedIds[0];
@@ -300,7 +309,7 @@ function CheckoutContent() {
             </div>
 
             <h1 className="text-2xl font-bold font-bn text-gray-900 mb-2">
-              {isCartCheckout ? t("অর্ডার সফল হয়েছে!", "Order Placed Successfully!") : productType === "ebook" ? t("ক্রয় সফল!", "Purchase Successful!") : t("ভর্তি সফল!", "Enrollment Successful!")}
+              {isCartCheckout ? t("অর্ডার সফল হয়েছে!", "Order Placed Successfully!") : productType === "ebook" ? t("ক্রয় সফল!", "Purchase Successful!") : productType === "exam" ? t("ভর্তি সফল!", "Enrollment Successful!") : t("ভর্তি সফল!", "Enrollment Successful!")}
             </h1>
             <p className="text-gray-500 font-bn mb-1">
               {t("অর্ডার নম্বর", "Order No")}: <span className="font-mono font-bold text-primary-700">{orderResult.order_number}</span>
@@ -333,8 +342,8 @@ function CheckoutContent() {
               <Link href="/dashboard/orders" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-700 text-white font-bold rounded-xl hover:bg-primary-800 transition-all font-bn shadow-md">
                 {t("অর্ডার ট্র্যাক করো", "Track Order")}
               </Link>
-              <Link href={isCartCheckout ? "/shop" : productType === "ebook" ? "/ebooks" : "/shop"} className="text-sm text-primary-700 font-semibold hover:underline font-bn">
-                {isCartCheckout ? t("আরও শপিং করো", "Continue Shopping") : t(`আরও ${productType === "ebook" ? "ই-বুক" : "কোর্স"} দেখো`, `Browse more ${productType === "ebook" ? "ebooks" : "courses"}`)}
+              <Link href={isCartCheckout ? "/shop" : productType === "ebook" ? "/ebooks" : productType === "exam" ? "/exams" : "/shop"} className="text-sm text-primary-700 font-semibold hover:underline font-bn">
+                {isCartCheckout ? t("আরও শপিং করো", "Continue Shopping") : productType === "exam" ? t("আরও পরীক্ষা দেখো", "Browse more exams") : t(`আরও ${productType === "ebook" ? "ই-বুক" : "কোর্স"} দেখো`, `Browse more ${productType === "ebook" ? "ebooks" : "courses"}`)}
               </Link>
             </div>
           </motion.div>
@@ -354,7 +363,7 @@ function CheckoutContent() {
   ];
   const paymentMethods = allPaymentMethods.filter((m) => flags[m.flag] !== false);
 
-  const backHref = isCartCheckout ? "/shop" : productType === "ebook" ? "/ebooks" : "/shop";
+  const backHref = isCartCheckout ? "/shop" : productType === "ebook" ? "/ebooks" : productType === "exam" ? "/exams" : "/shop";
 
   // ─── MAIN CHECKOUT UI ──────────────────────────
   return (
@@ -464,8 +473,7 @@ function CheckoutContent() {
               </motion.div>
             )}
 
-            {/* 2. Shipping Address — clean form */}
-            {((isCartCheckout && cartHasPhysical) || guestMode) && (
+            {/* 2. Shipping / Order Info */}
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
                 className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
@@ -561,7 +569,6 @@ function CheckoutContent() {
                   </p>
                 </div>
               </motion.div>
-            )}
 
             {/* 3. Payment Methods — big tappable cards */}
             {!isFree && (
@@ -732,9 +739,9 @@ function CheckoutContent() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <span className={`text-[8px] font-bold uppercase px-1.5 py-0.5 rounded ${
-                        productType === "ebook" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
+                        productType === "ebook" ? "bg-amber-100 text-amber-700" : productType === "exam" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"
                       }`}>
-                        {productType === "ebook" ? t("ই-বুক", "Ebook") : t("কোর্স", "Course")}
+                        {productType === "ebook" ? t("ই-বুক", "Ebook") : productType === "exam" ? t("পরীক্ষা", "Exam") : t("কোর্স", "Course")}
                       </span>
                       <p className="text-sm font-bold text-gray-800 font-bn line-clamp-2 mt-1">{product.title_bn || product.title}</p>
                       <div className="flex items-center gap-2 mt-1">

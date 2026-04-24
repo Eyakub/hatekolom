@@ -508,7 +508,7 @@ export default function ExamDetailPage({
                     className="mt-4"
                   >
                     <Link
-                      href={`/checkout?product=${exam.product.id}`}
+                      href={`/checkout?product=${exam.product.id}&type=exam`}
                       className="w-full inline-flex items-center justify-center gap-2 py-3.5 bg-primary-700 text-white font-bold rounded-xl hover:bg-primary-800 transition-colors shadow-lg shadow-primary-700/25 font-bn"
                     >
                       <ShoppingCart className="w-4 h-4" />
