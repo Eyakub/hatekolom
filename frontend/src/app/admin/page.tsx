@@ -1700,6 +1700,35 @@ function AdminPageContent() {
                   </div>
                 </div>
 
+                {/* Payment Method Toggles */}
+                <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100">
+                  <h3 className="text-sm font-bold text-gray-800 mb-1 font-bn">💳 পেমেন্ট মাধ্যম</h3>
+                  <p className="text-xs text-gray-400 mb-4 font-bn">চেকআউটে কোন পেমেন্ট অপশনগুলো দেখাবে তা এখান থেকে নিয়ন্ত্রণ করুন।</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {[
+                      { key: "payment_bkash", label: "বিকাশ", labelEn: "bKash", color: "bg-pink-50 border-pink-200" },
+                      { key: "payment_nagad", label: "নগদ", labelEn: "Nagad", color: "bg-orange-50 border-orange-200" },
+                      { key: "payment_card", label: "কার্ড/ব্যাংক", labelEn: "Card/Bank", color: "bg-slate-50 border-slate-200" },
+                      { key: "payment_cod", label: "ক্যাশ অন ডেলিভারি", labelEn: "COD", color: "bg-emerald-50 border-emerald-200" },
+                      { key: "payment_demo", label: "ডেমো", labelEn: "Demo", color: "bg-violet-50 border-violet-200" },
+                    ].map(({ key, label, labelEn, color }) => {
+                      const enabled = siteSettingsForm.feature_flags?.[key] !== false;
+                      return (
+                        <label key={key} className={`flex items-center justify-between gap-3 rounded-xl px-4 py-3 border cursor-pointer hover:border-primary-200 transition-colors ${enabled ? color : "bg-white border-gray-100 opacity-60"}`}>
+                          <span className="text-sm font-semibold text-gray-700 font-bn">{label} <span className="text-gray-400 font-normal text-xs">({labelEn})</span></span>
+                          <button
+                            type="button"
+                            onClick={() => setSiteSettingsForm((p: any) => ({ ...p, feature_flags: { ...(p.feature_flags || {}), [key]: !enabled } }))}
+                            className={`relative w-11 h-6 rounded-full transition-colors duration-200 ease-in-out shrink-0 ${enabled ? "bg-primary-600" : "bg-gray-300"}`}
+                          >
+                            <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-200 ease-in-out ${enabled ? "translate-x-5" : "translate-x-0"}`} />
+                          </button>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 <div className="pt-4 border-t border-gray-100 flex justify-end">
                   <button type="submit" className="px-6 py-2 bg-primary-700 text-white font-semibold rounded-xl hover:bg-primary-800 transition-all font-bn">
                     সেটিংস সেভ করো

@@ -17,6 +17,7 @@ import { useLocaleStore } from "@/stores/locale-store";
 import { api } from "@/lib/api";
 import { motion, AnimatePresence } from "motion/react";
 import { generateFingerprint } from "@/lib/fingerprint";
+import { useSiteStore } from "@/stores/site-store";
 
 // Child avatar emojis for playful selection
 const childAvatars = ["🧒", "👧", "👦", "🧒🏽", "👧🏽", "👦🏽", "🧒🏻", "👧🏻"];
@@ -114,7 +115,9 @@ function CheckoutContent() {
     setFingerprint(generateFingerprint());
   }, [mounted, _hasHydrated, canGuestCheckout]);
 
-  const [paymentMethod, setPaymentMethod] = useState("mock_success");
+  const _initFlags = useSiteStore.getState().settings.feature_flags || {};
+  const _defaultPay = _initFlags.payment_cod !== false ? "cod" : _initFlags.payment_bkash !== false ? "bkash" : "mock_success";
+  const [paymentMethod, setPaymentMethod] = useState(_defaultPay);
   const [couponCode, setCouponCode] = useState("");
   const [couponDiscount, setCouponDiscount] = useState("0");
   const [couponMessage, setCouponMessage] = useState("");
@@ -309,16 +312,16 @@ function CheckoutContent() {
     );
   }
 
-  // ─── PAYMENT METHODS ────────────────────────────
-  const paymentMethods = [
-    { id: "bkash", label: "bKash", icon: Smartphone, bg: "bg-gradient-to-br from-pink-500 to-pink-600", ring: "ring-pink-400" },
-    { id: "nagad", label: "Nagad", icon: Wallet, bg: "bg-gradient-to-br from-orange-500 to-orange-600", ring: "ring-orange-400" },
-    { id: "mock_success", label: "Demo", icon: Monitor, bg: "bg-gradient-to-br from-violet-500 to-violet-600", ring: "ring-violet-400" },
-    { id: "card", label: "Card/Bank", icon: Landmark, bg: "bg-gradient-to-br from-slate-600 to-slate-700", ring: "ring-slate-400" },
+  // ─── PAYMENT METHODS (filtered by admin settings) ────────────────────────────
+  const flags = useSiteStore.getState().settings.feature_flags || {};
+  const allPaymentMethods = [
+    { id: "bkash", flag: "payment_bkash", label: "bKash", icon: Smartphone, bg: "bg-gradient-to-br from-pink-500 to-pink-600", ring: "ring-pink-400" },
+    { id: "nagad", flag: "payment_nagad", label: "Nagad", icon: Wallet, bg: "bg-gradient-to-br from-orange-500 to-orange-600", ring: "ring-orange-400" },
+    { id: "cod", flag: "payment_cod", label: t("ক্যাশ অন ডেলিভারি", "Cash on Delivery"), icon: Truck, bg: "bg-gradient-to-br from-emerald-500 to-emerald-600", ring: "ring-emerald-400" },
+    { id: "card", flag: "payment_card", label: "Card/Bank", icon: Landmark, bg: "bg-gradient-to-br from-slate-600 to-slate-700", ring: "ring-slate-400" },
+    { id: "mock_success", flag: "payment_demo", label: "Demo", icon: Monitor, bg: "bg-gradient-to-br from-violet-500 to-violet-600", ring: "ring-violet-400" },
   ];
-  if ((isCartCheckout && cartIsAllPhysical) || guestMode) {
-    paymentMethods.push({ id: "cod", label: t("ক্যাশ অন ডেলিভারি", "Cash on Delivery"), icon: Truck, bg: "bg-gradient-to-br from-emerald-500 to-emerald-600", ring: "ring-emerald-400" });
-  }
+  const paymentMethods = allPaymentMethods.filter((m) => flags[m.flag] !== false);
 
   const backHref = isCartCheckout ? "/shop" : productType === "ebook" ? "/ebooks" : "/shop";
 
