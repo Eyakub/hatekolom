@@ -783,14 +783,14 @@ export default function HomePage() {
             )}
           </p>
 
-          <Link href="/shop">
+          <Link href="/exams">
             <motion.button
               className="group inline-flex items-center gap-3 bg-gradient-to-r from-amber-400 to-amber-500 text-blue-900 font-extrabold font-bn px-10 py-4 rounded-full text-lg shadow-lg shadow-amber-400/30 hover:from-amber-300 hover:to-amber-400 hover:shadow-xl hover:shadow-amber-400/40 hover:-translate-y-0.5 active:translate-y-0 transition-all"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              <ShoppingBag size={22} />
-              {t("বই দেখুন", "Browse Books")}
+              <GraduationCap size={22} />
+              {t("পরীক্ষা দেখুন", "Check Exams")}
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </Link>
